@@ -36,6 +36,11 @@ FERRAMENTAS = [
 ]
 
 
+REGRAS_APP = ("Você está rodando por trás do app da Fábrica de Conteúdo, sem ninguém pra responder perguntas. "
+              "Responda e escreva SEMPRE em português do Brasil. Não pergunte: decida pelo perfil e pela memória "
+              "da pessoa, registre o que fez e explique no fim em poucas linhas.")
+
+
 def achar_claude():
     import glob
     candidatos = [shutil.which("claude"), os.path.expanduser("~/.local/bin/claude"),
@@ -98,12 +103,14 @@ class Job:
         self.acao, self.iid, self.prompt = acao, iid, prompt
         self.eventos, self.status, self.inicio, self.fim = [], "rodando", time.time(), None
         self.erro = None
+        self.pasta = pasta
         claude = achar_claude()
         if not claude:
             self.status, self.erro = "erro", "Não achei o Claude Code instalado neste computador."
             return
         cmd = [claude, "-p", prompt, "--output-format", "stream-json", "--verbose",
-               "--permission-mode", "acceptEdits", "--allowedTools", *FERRAMENTAS]
+               "--permission-mode", "acceptEdits", "--append-system-prompt", REGRAS_APP,
+               "--allowedTools", *FERRAMENTAS]
         if sessao:
             cmd += (["--resume", sessao] if retomar else ["--session-id", sessao])
         self.proc = subprocess.Popen(cmd, cwd=pasta.raiz, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -124,6 +131,12 @@ class Job:
             if ev.get("type") == "result" and ev.get("is_error"):
                 self.erro = (ev.get("result") or "erro")[:500]
         self.proc.wait()
+        # rede de segurança: mídia de vídeo nunca fica na pasta da pessoa
+        shutil.rmtree(self.pasta.p(".tmp-videos"), ignore_errors=True)
+        try:
+            os.remove(self.pasta.p(".tmp-trilha.md"))
+        except OSError:
+            pass
         if self.proc.returncode != 0 and not self.erro:
             self.erro = (self.proc.stderr.read() or "").strip()[-600:] or f"saiu com código {self.proc.returncode}"
         if self.erro and ("authenticat" in self.erro.lower() or "login" in self.erro.lower()):

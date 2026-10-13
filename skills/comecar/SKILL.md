@@ -33,7 +33,7 @@ A pessoa nunca mais vai precisar explicar nicho, público ou objetivo.
    - termine. Pule o resto deste roteiro.
 1b. **Migrar da versão antiga.** Se `config.json` tem `painel_url` (versão com painel no Claude) ou veio o argumento `migrar`:
    - crie `memoria/` e `dados/`;
-   - traga as pautas do painel antigo como ideias (ArtifactData `list` em `pautas` com o `painel_url`; pra cada uma, `FAB ideia-nova` com título, fonte e `por_que` = ângulo);
+   - traga as pautas do painel antigo como ideias (ArtifactData `list` em `pautas` com o `painel_url`; pra cada uma, `FAB ideia-nova` com título, fonte e `por_que` = ângulo). Essa ferramenta só existe na conversa do app do Claude, não nos botões do app da Fábrica. Se não estiver disponível, peça pra pessoa colar o título de cada pauta antiga (ou siga sem elas) e diga isso em uma linha;
    - renomeie `meus-agentes/fabricar.md` pra `meus-agentes/produzir.md`;
    - troque o `CLAUDE.md` pelo modelo novo;
    - tire `painel_url` do `config.json`;
