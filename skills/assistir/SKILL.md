@@ -26,7 +26,7 @@ description: Assiste de verdade aos vídeos do próprio perfil da pessoa (frames
 2. **Olhar de verdade.** Leia os frames, principalmente os dos 3 primeiros segundos, e a transcrição. Não classifique nada que você não viu ou ouviu.
 3. **Gravar** `memoria/videos/<id>.md`:
    ```markdown
-   # <primeira frase falada ou título> · <data>
+   # <tema do vídeo em 6-10 palavras, do jeito que ela falaria> · <data AAAA-MM-DD>
    Link: <url> · Duração: <s> · Resultado: <views/curtidas/comentários de posts-perfil.json, se houver>
 
    ## Gancho (0-3s)

@@ -87,6 +87,16 @@ Com o que leu, escreva **o que entendeu** e peça confirmação:
 
 Pergunte o que ajustar.
 
+## Passo 1a. Buscar contexto antes de perguntar
+
+Antes de qualquer pergunta nova, junte sozinho o que já está público:
+- **Bio e link da bio:** abra o site ou a página do link (WebFetch). Anote o que vende, para quem, preço se houver, depoimentos e casos.
+- **Busca na web** pelo nome do negócio ou da pessoa: reportagens, Google Meu Negócio, avaliações (o que os clientes elogiam e reclamam, com as palavras deles).
+- **Comentários dos posts** (`comentarios_recentes` da Apify): perguntas de seguidor e palavras que o público usa.
+- **Legendas e vídeos** já lidos no Passo 1.
+
+Monte um rascunho curto de **cliente, oferta e prova** e mostre: "Isso eu já descobri sozinho: … Confere?". Cada item que você achou é uma pergunta a menos no Passo 1c.
+
 ## Passo 1b. O que você já fez
 
 Pergunte se ela já tem roteiros, legendas, posts planejados, textos ou materiais que já usa. Ela pode:
@@ -103,6 +113,37 @@ Isso serve a três coisas:
 
 Se ela não tiver nada, siga.
 
+## Passo 1c. O que só você sabe
+
+Perguntas que mais melhoram o conteúdo, tiradas de briefings de social media. **Pule as que o Passo 1a ou 1b já respondeu**: nesse caso, mostre o que achou e peça só um "é isso?". Uma por vez, aberta, com a linha de subtexto entre parênteses, exatamente nessa linguagem simples:
+
+**Cliente**
+1. "O que seu cliente fala pra não comprar?" (cada desculpa dele vira um post que quebra essa crença)
+2. "Quais perguntas mais chegam no direct e nos comentários?" (é a lista de pautas que o seu público já pediu; mostre as que você achou nos comentários)
+3. "Como o cliente descreve o problema, com as palavras dele? Pode colar mensagens reais, sem nome." (pro texto soar como ele fala, não como propaganda)
+4. "Seu cliente já sabe que tem esse problema, ou você precisa mostrar pra ele?" (muda o jeito de começar o post)
+
+**Oferta**
+5. "Como fica a vida do cliente depois de comprar de você?" (é a promessa que o post entrega)
+6. "Por que comprar de você e não de outro?" (o que só você tem)
+7. "Que resultados, números ou depoimentos você pode mostrar?" (prova de verdade; sem isso eu não cito número nenhum)
+8. "O que você quer vender ou divulgar mais nos próximos 3 meses? Tem alguma data importante?" (pra puxar o conteúdo pra onde está o dinheiro)
+
+**Limites**
+9. "Sobre o que você não fala de jeito nenhum? E com quem você não quer parecer?" (tema proibido e o tipo de perfil que você não quer imitar)
+
+**Ação**
+10. "Depois de ver o post, pra onde a pessoa deve ir? Direct, WhatsApp, link da bio, comentar uma palavra?" (o convite do fim do post)
+11. "O que precisa acontecer pra você dizer que o Instagram está dando certo?" (é o número que eu vou acompanhar toda semana)
+
+**Onde gravar:**
+- 1 a 4 em `perfil/publico.md` (crie se não existir), em seções curtas: Objeções, Perguntas do público, Palavras do cliente, Quanto ele já sabe;
+- 5 a 8 em `perfil/marca.md`, seções Promessa, Diferencial, Provas que posso citar, Prioridade dos próximos meses;
+- 9 em `memoria/aprendizado.md`, na seção "Do questionário";
+- 10 e 11 em `perfil/marca.md` (seções Para onde o post leva, Sucesso é) e em `config.json` (`"cta_destino"`, `"meta_sucesso"`).
+
+**Teto:** somando este passo com voz, volume, equipe, fontes e referências, a pessoa responde **no máximo 12 perguntas abertas**. Se passar disso, você está perguntando o que devia ter buscado. Perguntas de sim/não (Apify, Chrome, publicação) não contam.
+
 ## Passo 2. Voz
 
 A voz sai do que ela já escreveu, não de adjetivo.
@@ -117,6 +158,7 @@ A voz sai do que ela já escreveu, não de adjetivo.
   - pessoa verbal (eu, a gente);
   - o que NUNCA diz.
 - **Confirmação:** mostre o resultado em até 10 linhas, com um exemplo de legenda nova escrita nessa voz, e pergunte se soa como ela.
+- **Exemplo bom e ruim:** pergunte "Qual post seu você mais gostou, e qual odiou?" (o que gostou é o molde; o que odiou entra no "nunca"). Pule se ela já disse.
 
 ## Passo 3. Público e objetivos por formato
 

@@ -12,11 +12,13 @@ description: Busca ideias de post pro perfil da pessoa - notícias e assuntos do
 ## 1. Contexto
 
 Leia:
-- `perfil/marca.md`, `perfil/fontes.md`;
+- `perfil/marca.md`, `perfil/publico.md` (se existir), `perfil/fontes.md`;
 - `meus-agentes/radar.md`;
 - `memoria/aprendizado.md`, `memoria/o-que-funciona.md`.
 
-Rode `FAB ideias` pra ver o que já existe e não repetir.
+Rode `FAB ideias` pra ver o que já existe e não repetir (inclui as `arquivada` e `descartada`: não traga de novo).
+
+**Dúvidas reais primeiro:** `dados/posts-perfil.json` traz `comentarios_recentes`. Pergunta de seguidor que ainda não virou ideia é a melhor pauta que existe.
 
 **Aprendizado manda.**
 - "Notícia ruim" de um tipo de assunto: pare de trazer esse tipo.

@@ -13,7 +13,7 @@ description: Produz um post a partir de uma ideia da Fábrica, passando por TODA
 
 Leia:
 - `CLAUDE.md`;
-- `perfil/marca.md`, `perfil/voz.md`, `perfil/angulos.md`;
+- `perfil/marca.md`, `perfil/publico.md` (se existir), `perfil/voz.md`, `perfil/angulos.md`;
 - `meus-agentes/produzir.md` (se existir);
 - `memoria/aprendizado.md`;
 - `memoria/o-que-funciona.md`;
@@ -27,8 +27,8 @@ A memória manda. Se `aprendizado.md` diz "ângulo X ruim" ou "não gosto de tom
 1. Leia a trilha e o post atuais.
 2. Refaça **só** as etapas que o pedido afeta. Ex.: "troca o gancho" mexe em gancho → texto → legenda → revisão. "Muda pra carrossel" refaz tudo a partir do formato.
 3. Registre na trilha cada etapa refeita, com o nome "Ajuste · <etapa>".
-4. Acrescente na conversa uma resposta curta: `FAB alterar <id> '{"conversa": [...conversa atual..., {"role":"assistant","content":"<o que mudou, em 1-3 linhas>"}]}'`.
-5. Se o pedido soa como preferência fixa ("sempre", "nunca", "não gosto de", "prefiro"), grave em `memoria/aprendizado.md` com `FAB memoria aprendizado.md "- <data> · Regra pedida no ajuste: <regra>"`. Diga na resposta que guardou e que dá pra apagar na aba Memória.
+4. Termine respondendo em 1-3 linhas o que mudou. A conversa do app guarda a resposta sozinha: não grave conversa na ideia.
+5. Se o pedido soa como preferência fixa ("sempre", "nunca", "não gosto de", "prefiro"), **proponha** guardar: `FAB memoria aprendizado.md "- <data> · Regra pedida no ajuste: <regra>" --origem "ajuste <id>"`. Isso não grava: aparece no app pra ela confirmar. Diga na resposta "deixei a regra pra você confirmar".
 6. Pule para o passo 9.
 
 ## Etapas (modo normal): cada uma termina com `FAB trilha`

@@ -10,10 +10,10 @@ description: Fila de produção da Fábrica - status das ideias e posts, pacote 
 ## O que a pessoa pode pedir
 
 **"O que tem na fila?"**
-Rode `FAB ideias` e agrupe por status (`ideia → pronto → escolhida → gravada → designer → publicada`).
+Rode `FAB ideias` e agrupe por status (`nova → vou_usar → produzindo → pronto → gravada → com_equipe → publicada → analisada`; à parte: `guardada`, `arquivada`, `descartada`).
 
 **Mudar status** ("gravei", "vou fazer", "publiquei")
-Rode `FAB status <id> <status>`.
+Rode `FAB status <id> <status>`. **Publicou:** `FAB publicar <id> --link <link do post>` (liga a análise de 7 dias).
 
 **`entregar <id>`**
 1. Monte `entregas/<data> - <título curto>.md` com:
@@ -21,12 +21,12 @@ Rode `FAB status <id> <status>`.
    - o briefing;
    - o prazo, se houver.
 2. Pra cada pessoa de `perfil/equipe.md`, faça um bloco curto no formato que ela usa (ex.: WhatsApp). Ninguém recebe mensagem daqui: a pessoa copia e manda.
-3. Rode `FAB status <id> designer` e `FAB historico "Entregue: <título>"`.
+3. Rode `FAB status <id> com_equipe` e `FAB historico "Entregue: <título>"`.
 
 **Publicar** (só carrossel ou imagem, só com `config.json` → `"publora": true`)
 1. Mostre o que vai ao ar.
 2. Espere "pode publicar".
 3. Use o fluxo de publicação do `instagram-skills` (Publora).
-4. Rode `FAB status <id> publicada`.
+4. Rode `FAB publicar <id> --link <link>`.
 
 Na rotina e no app, publicar nunca acontece: só em conversa, com OK.

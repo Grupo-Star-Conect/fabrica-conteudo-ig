@@ -9,7 +9,12 @@ import os
 import re
 import uuid
 
-STATUS = ["ideia", "produzindo", "pronto", "escolhida", "gravada", "designer", "publicada", "descartada"]
+STATUS = ["nova", "vou_usar", "guardada", "descartada", "arquivada", "produzindo", "pronto", "gravada",
+          "com_equipe", "publicada", "analisada"]
+# status da v0.2 -> v0.3
+MIGRA = {"ideia": "nova", "escolhida": "vou_usar", "designer": "com_equipe"}
+VENCE_DIAS = 7       # ideia nova sem decisão vai pro Arquivo
+ANALISA_DIAS = 7     # post publicado é analisado depois disso
 FEEDBACK = {
     "noticia_boa": "Notícia boa",
     "noticia_ruim": "Notícia ruim / não serve",
@@ -25,6 +30,10 @@ def hoje():
 
 def agora():
     return _dt.datetime.now().isoformat(timespec="seconds")
+
+
+def em_dias(n):
+    return (_dt.date.today() + _dt.timedelta(days=n)).isoformat()
 
 
 def slug(txt, n=50):
@@ -86,7 +95,7 @@ class Pasta:
         return os.path.join(self.ideias, iid + ".json")
 
     def ideia(self, iid):
-        return self.ler_json(self.caminho_ideia(iid))
+        return _norm(self.ler_json(self.caminho_ideia(iid)))
 
     def listar_ideias(self):
         if not os.path.isdir(self.ideias):
@@ -94,7 +103,7 @@ class Pasta:
         out = []
         for nome in os.listdir(self.ideias):
             if nome.endswith(".json"):
-                d = self.ler_json(os.path.join(self.ideias, nome))
+                d = _norm(self.ler_json(os.path.join(self.ideias, nome)))
                 if d:
                     out.append(d)
         out.sort(key=lambda d: (d.get("data", ""), d.get("criado", "")), reverse=True)
@@ -107,7 +116,7 @@ class Pasta:
         while os.path.exists(self.caminho_ideia(iid)):
             iid, n = f"{base}-{n}", n + 1
         ideia = {
-            "id": iid, "data": hoje(), "criado": agora(), "status": "ideia",
+            "id": iid, "data": hoje(), "criado": agora(), "status": "nova",
             "titulo": titulo, "por_que": "", "fonte": None, "tipo_sugerido": None,
             "origem": "radar", "feedback": [], "trilha": [], "post": None,
             "briefing": None, "conversa": [], "sessao": None,
@@ -136,11 +145,110 @@ class Pasta:
         return d
 
     def status(self, iid, status):
+        status = MIGRA.get(status, status)
         if status not in STATUS:
             raise ValueError("status inválido")
-        d = self.alterar(iid, {"status": status})
+        if status == "publicada":
+            return self.publicar(iid)
+        campos = {"status": status}
+        if status in ("vou_usar", "guardada", "descartada"):
+            campos["decidido_em"] = hoje()
+        d = self.alterar(iid, campos)
         self.historico(f"Status → {status}: {d['titulo']}")
         return d
+
+    def publicar(self, iid, link=None):
+        campos = {"status": "publicada", "publicado_em": hoje(), "analisar_em": em_dias(ANALISA_DIAS)}
+        if link:
+            campos["link_post"] = link.strip()
+        d = self.alterar(iid, campos)
+        self.historico(f"Publicado (análise em {campos['analisar_em']}): {d['titulo']}")
+        return d
+
+    def varrer(self):
+        """Ideia nova sem decisão há mais de VENCE_DIAS vai pro Arquivo. Nada é apagado."""
+        limite = (_dt.date.today() - _dt.timedelta(days=VENCE_DIAS)).isoformat()
+        n = 0
+        for d in self.listar_ideias():
+            if d.get("status") == "nova" and (d.get("data") or hoje()) < limite:
+                self.alterar(d["id"], {"status": "arquivada", "arquivada_em": hoje()})
+                n += 1
+        if n:
+            self.historico(f"Arquivo: {n} ideia(s) sem decisão há mais de {VENCE_DIAS} dias")
+        return n
+
+    def vencidos(self):
+        """Posts publicados cuja análise de 7 dias já venceu."""
+        return [d for d in self.listar_ideias()
+                if d.get("status") == "publicada" and (d.get("analisar_em") or "9999") <= hoje()]
+
+    # ---------- confirmar antes de salvar ----------
+    def _pend_path(self):
+        return self.p("dados", "pendente-salvar.json")
+
+    def pendentes(self):
+        return self.ler_json(self._pend_path(), []) or []
+
+    def pendente_novo(self, arquivo, texto, origem="", modo="anexar"):
+        arquivo = arquivo.strip().lstrip("./")
+        if not re.fullmatch(r"(memoria|perfil)/[a-z0-9-]+\.md", arquivo):
+            raise ValueError("só dá pra guardar em memoria/*.md ou perfil/*.md")
+        L = self.pendentes()
+        item = {"id": uuid.uuid4().hex[:8], "arquivo": arquivo, "texto": texto.strip(), "origem": origem,
+                "modo": modo, "quando": agora()}
+        if modo == "substituir":
+            item["antes"] = self.ler(arquivo)
+        L.append(item)
+        self.gravar_json(self._pend_path(), L)
+        return item
+
+    def pendente_salvar(self, pid, texto=None):
+        L = self.pendentes()
+        it = next((x for x in L if x["id"] == pid), None)
+        if not it:
+            raise KeyError(pid)
+        txt = (texto if texto is not None else it["texto"]).strip()
+        if it.get("modo") == "substituir":
+            with open(self.p(it["arquivo"]), "w", encoding="utf-8") as f:
+                f.write(txt + "\n")
+        else:
+            self.anexar(it["arquivo"], txt)
+        self.gravar_json(self._pend_path(), [x for x in L if x["id"] != pid])
+        self.historico(f"Guardado em {it['arquivo']} (confirmado por você)")
+        return it
+
+    def pendente_descartar(self, pid):
+        L = self.pendentes()
+        self.gravar_json(self._pend_path(), [x for x in L if x["id"] != pid])
+        return {"ok": True}
+
+    # ---------- conversas do app ----------
+    def caminho_conversa(self, cid):
+        if not re.fullmatch(r"[a-z0-9-]{1,90}", cid or ""):
+            raise ValueError("conversa inválida")
+        return self.p("dados", "conversas", cid + ".json")
+
+    def conversa(self, cid):
+        return self.ler_json(self.caminho_conversa(cid))
+
+    def gravar_conversa(self, c):
+        c["atualizado"] = agora()
+        self.gravar_json(self.caminho_conversa(c["id"]), c)
+        return c
+
+    def conversas(self):
+        d = self.p("dados", "conversas")
+        if not os.path.isdir(d):
+            return []
+        out = []
+        for nome in os.listdir(d):
+            if nome.endswith(".json"):
+                c = self.ler_json(os.path.join(d, nome))
+                if c:
+                    out.append({k: c.get(k) for k in ("id", "titulo", "criado", "atualizado", "ideia_id")}
+                               | {"n": len(c.get("mensagens") or [])})
+        out.sort(key=lambda c: c.get("atualizado") or "", reverse=True)
+        return out
 
     def feedback(self, iid, tipo, texto=""):
         if tipo not in FEEDBACK:
@@ -168,6 +276,7 @@ class Pasta:
 
     # ---------- leitura geral pro app ----------
     def estado(self):
+        self.varrer()
         cfg = self.config()
         posts = []
         pp = self.p("dados", "posts-perfil.json")
@@ -178,13 +287,13 @@ class Pasta:
         if os.path.isdir(vdir):
             for nome in sorted(os.listdir(vdir), reverse=True):
                 if nome.endswith(".md"):
-                    videos.append({"arquivo": nome, "texto": self.ler("memoria", "videos", nome)})
+                    videos.append(_video(nome, self.ler("memoria", "videos", nome), posts))
         refs = []
         rdir = self.p("memoria", "referencias")
         if os.path.isdir(rdir):
             for nome in sorted(os.listdir(rdir)):
                 if nome.endswith(".md"):
-                    refs.append({"arquivo": nome, "texto": self.ler("memoria", "referencias", nome)})
+                    refs.append({"handle": nome[:-3], "texto": self.ler("memoria", "referencias", nome)})
         mes = hoje()[:7]
         return {
             "referencias": refs,
@@ -201,7 +310,36 @@ class Pasta:
                 "historico": self.ler("memoria", "historico", f"{mes}.md"),
             },
             "feedback_tipos": FEEDBACK,
+            "pendentes": self.pendentes(),
+            "conversas": self.conversas(),
+            "vencidos": [d["id"] for d in self.vencidos()],
+            "publico": self.ler("perfil", "publico.md"),
+            "angulos": self.ler("perfil", "angulos.md"),
+            "fontes": self.ler("perfil", "fontes.md"),
+            "hoje": hoje(),
+            "vence_dias": VENCE_DIAS,
         }
+
+
+def _norm(d):
+    if d and d.get("status") in MIGRA:
+        d["status"] = MIGRA[d["status"]]
+    return d
+
+
+def _video(nome, texto, posts):
+    """Análise de vídeo com nome legível: o tema (H1), a data, o link e os números do post."""
+    vid = nome[:-3]
+    h1 = next((l[2:].strip() for l in texto.splitlines() if l.startswith("# ")), vid)
+    titulo, _, data = h1.rpartition(" · ")
+    if not titulo:
+        titulo, data = h1, ""
+    m = re.search(r"Link:\s*(\S+)", texto)
+    post = next((p for p in posts if p.get("id") == vid), {}) if isinstance(posts, list) else {}
+    return {"id": vid, "titulo": titulo.strip().strip('"“”'), "data": data.strip() or post.get("data", ""),
+            "link": m.group(1) if m else post.get("url"), "tema": post.get("tema"),
+            "numeros": {k: post.get(k) for k in ("views", "curtidas", "comentarios") if post.get(k) is not None},
+            "texto": texto}
 
 
 def nova_sessao():
