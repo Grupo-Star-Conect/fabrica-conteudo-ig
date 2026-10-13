@@ -37,11 +37,28 @@ FERRAMENTAS = [
 
 
 def achar_claude():
-    for c in (shutil.which("claude"), os.path.expanduser("~/.local/bin/claude"),
-              os.path.expanduser("~/.claude/local/claude"), "/opt/homebrew/bin/claude", "/usr/local/bin/claude"):
+    import glob
+    candidatos = [shutil.which("claude"), os.path.expanduser("~/.local/bin/claude"),
+                  os.path.expanduser("~/.claude/local/claude"), "/opt/homebrew/bin/claude", "/usr/local/bin/claude",
+                  os.environ.get("CLAUDE_CODE_EXECPATH")]
+    # Claude Code que vem dentro do app desktop (Mac), versão mais nova primeiro
+    candidatos += sorted(glob.glob(os.path.expanduser(
+        "~/Library/Application Support/Claude/claude-code/*/*/claude.app/Contents/MacOS/claude")), reverse=True)
+    for c in candidatos:
         if c and os.path.exists(c):
             return c
     return None
+
+
+def ambiente_limpo():
+    """Ambiente sem as variáveis de uma sessão do Claude em andamento.
+
+    Se o app foi aberto de dentro de uma conversa do Claude, o processo herda
+    variáveis que fazem o Claude Code filho esperar a autenticação do pai e
+    falhar com 'OAuth session expired'."""
+    return {k: v for k, v in os.environ.items()
+            if not (k.startswith("CLAUDE_CODE_") or k.startswith("CLAUDE_AGENT_SDK") or k in
+                    ("CLAUDECODE", "CLAUDE_PID", "CLAUDE_EFFORT", "ANTHROPIC_BASE_URL"))}
 
 
 def resumo_evento(ev):
@@ -90,7 +107,7 @@ class Job:
         if sessao:
             cmd += (["--resume", sessao] if retomar else ["--session-id", sessao])
         self.proc = subprocess.Popen(cmd, cwd=pasta.raiz, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                     stdin=subprocess.DEVNULL, text=True, bufsize=1)
+                                     stdin=subprocess.DEVNULL, text=True, bufsize=1, env=ambiente_limpo())
         threading.Thread(target=self._ler, daemon=True).start()
 
     def _ler(self):
