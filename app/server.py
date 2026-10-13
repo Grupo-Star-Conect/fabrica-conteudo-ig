@@ -83,6 +83,13 @@ def ambiente_limpo():
                     ("CLAUDECODE", "CLAUDE_PID", "CLAUDE_EFFORT", "ANTHROPIC_BASE_URL"))}
 
 
+NOMES_SKILL = {"instagram-skills:ig-hook-extractor": "gancho", "instagram-skills:ig-carousel-planner": "planejador de carrossel",
+               "instagram-skills:ig-caption-writer": "legenda", "instagram-skills:ig-hashtag-strategist": "hashtags",
+               "instagram-skills:ig-humanizer": "revisão anti-IA", "watch:watch": "assistir vídeo",
+               "fabrica:analista": "analista", "fabrica:radar": "radar de ideias", "fabrica:produzir": "produção",
+               "fabrica:trazer": "trazer assunto", "fabrica:assistir": "assistir vídeos", "fabrica:fila": "fila"}
+
+
 def resumo_evento(ev):
     """Transforma uma linha do stream-json numa frase curta pra tela."""
     t = ev.get("type")
@@ -92,21 +99,24 @@ def resumo_evento(ev):
             if c.get("type") == "tool_use":
                 n, i = c.get("name"), c.get("input") or {}
                 if n == "Skill":
-                    out.append(("skill", f"Skill: {i.get('skill') or i.get('command') or ''}"))
+                    out.append(("skill", "Usando: " + NOMES_SKILL.get(i.get('skill') or '', (i.get('skill') or '').split(':')[-1])))
                 elif n == "WebSearch":
                     out.append(("busca", f"Pesquisando: {i.get('query', '')}"))
                 elif n == "WebFetch":
                     out.append(("leitura", f"Lendo: {i.get('url', '')}"))
                 elif n == "Bash":
                     cmd = i.get("command", "")
-                    if "fab.py trilha" in cmd:
-                        out.append(("etapa", "Etapa registrada na trilha"))
-                    else:
-                        out.append(("comando", f"Executando: {cmd[:110]}"))
+                    legivel = [("fab.py trilha", "Registrando a etapa"), ("fab.py memoria", "Propondo algo pra guardar"),
+                               ("fab.py ideia-nova", "Criando a ideia"), ("fab.py alterar", "Salvando o post"),
+                               ("fab.py publicar", "Marcando como publicado"), ("fab.py status", "Mudando o status"),
+                               ("fab.py", "Lendo as ideias"), ("ler_perfil.py", "Lendo o Instagram pela Apify"),
+                               ("yt-dlp", "Baixando o vídeo"), ("ffmpeg", "Separando os quadros do vídeo"),
+                               ("whisper", "Transcrevendo o áudio")]
+                    out.append(("comando", next((t for k, t in legivel if k in cmd), "Rodando uma etapa")))
                 elif n in ("Write", "Edit"):
-                    out.append(("arquivo", f"Gravando: {os.path.basename(i.get('file_path', ''))}"))
+                    out.append(("arquivo", "Escrevendo"))
                 elif n == "Read":
-                    out.append(("arquivo", f"Lendo arquivo: {os.path.basename(i.get('file_path', ''))}"))
+                    out.append(("arquivo", "Lendo o que já sei de você" if "/memoria/" in i.get("file_path", "") or "/perfil/" in i.get("file_path", "") else "Lendo"))
             elif c.get("type") == "text" and c.get("text", "").strip():
                 out.append(("texto", c["text"].strip()[:400]))
     elif t == "result":
