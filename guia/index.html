@@ -185,8 +185,8 @@ footer .in{max-width:1120px;margin:0 auto}
       <div><b>Ideias do dia</b>Todo dia às 7h, assuntos do seu nicho com o link da fonte e por que servem pra você.</div>
       <div><b>Você ensina</b>Notícia boa, ruim, ângulo ruim, tom errado. Cada clique vira regra pra próxima vez.</div>
       <div><b>Produzir</b>O post passa por 8 etapas: fonte, ângulo, gancho, texto, legenda, hashtags, anti-IA e briefing.</div>
-      <div><b>Ajustar conversando</b>"Troca o gancho", "deixa mais curto". Ele refaz só o que mudou.</div>
-      <div><b>Entregar e medir</b>Pacote pro designer e pro social. Toda semana, o que funcionou vira padrão.</div>
+      <div><b>Conversar</b>Dentro do app, como no Claude: "troca o gancho", "por que esse Reels foi bem?". Ela refaz só o que mudou.</div>
+      <div><b>Publicar e medir</b>Marcou publicado, 7 dias depois ela busca os números e diz o que funcionou.</div>
     </div>
     <div class="grid2" style="margin-top:14px">
       <div class="card"><h3>A diferença</h3><p>Em outros guias, todo pedido precisa repetir nicho, público e objetivo. Aqui isso fica salvo na sua pasta uma vez só. Você pede em uma linha, e a Fábrica já sabe o resto.</p></div>
@@ -200,13 +200,13 @@ footer .in{max-width:1120px;margin:0 auto}
     <h2>O que você precisa ter</h2>
     <p class="sub">Separe uns 30 minutos pra primeira vez. A maior parte é o questionário e a Fábrica assistindo aos seus vídeos.</p>
     <div class="tbl"><table>
-      <tr><th>O quê</th><th>Por quê</th><th>Custo</th></tr>
-      <tr><td>Claude Pro</td><td>A Fábrica roda no seu plano, com a sua cota</td><td>US$ 20/mês</td></tr>
-      <tr><td>App do Claude no computador</td><td>Onde ficam as rotinas automáticas e a conversa</td><td>Grátis</td></tr>
-      <tr><td>Mac</td><td>O app da Fábrica e a leitura de vídeos foram testados no Mac</td><td>—</td></tr>
-      <tr><td>Conta na Apify</td><td>Lê o seu perfil e os das referências sozinha, toda semana. Sem ela, você manda print</td><td>Grátis até US$ 5/mês</td></tr>
-      <tr><td>Python 3 e ffmpeg</td><td>Pra rodar o app e assistir aos vídeos</td><td>Grátis</td></tr>
-      <tr><td>Instagram profissional</td><td>Só se quiser publicar carrossel direto daqui, pela Publora (opcional)</td><td>Publora é paga</td></tr>
+      <tr><th>O quê</th><th>Por quê</th></tr>
+      <tr><td>Sua conta do Claude</td><td>A Fábrica roda no seu Claude, com o seu login. Plano Pro ou superior</td></tr>
+      <tr><td>App do Claude no computador</td><td>Onde ficam as rotinas automáticas</td></tr>
+      <tr><td>Mac</td><td>O app da Fábrica e a leitura de vídeos foram testados no Mac</td></tr>
+      <tr><td>Conta na Apify</td><td>Lê o seu perfil e os das referências sozinha. Você cria no questionário, em 3 minutos</td></tr>
+      <tr><td>Python 3 e ffmpeg</td><td>Pra rodar o app e assistir aos vídeos. O passo 4 instala</td></tr>
+      <tr><td>Instagram profissional</td><td>Conta comercial ou de criador, pra ver os insights de cada post</td></tr>
     </table></div>
     <div class="warn">Usa Windows? As skills e a conversa funcionam, mas o app da Fábrica e a leitura de vídeos ainda estão em validação no Windows. Fale com a Star Conect antes de instalar.</div>
   </section>
@@ -232,25 +232,32 @@ footer .in{max-width:1120px;margin:0 auto}
   <section id="primeira">
     <p class="eyebrow">05 · Primeira vez</p>
     <h2>O questionário: responda uma vez, nunca mais</h2>
-    <p class="sub">Crie uma pasta vazia (ex.: "Fabrica de Conteudo" na Mesa), abra o app do Claude na aba Code nessa pasta e digite <b>/fabrica:comecar</b>. Ele faz uma pergunta por vez. Quando já souber a resposta pelo seu perfil, só pede pra você confirmar.</p>
+    <p class="sub">Crie uma pasta vazia (ex.: "Fabrica de Conteudo" na Mesa), abra o app do Claude na aba Code nessa pasta e digite <b>/fabrica:comecar</b>. Antes de perguntar, ela lê sozinha o seu perfil, o link da bio, os comentários e o que existe sobre você na internet. Só pergunta o que não achou, uma coisa por vez, e no máximo umas 12 perguntas.</p>
     <div id="perguntas"></div>
     <div class="card" style="margin-top:16px"><h3>Enquanto você responde, ele assiste</h3><p>Com a sua autorização, a Fábrica usa o login do Instagram que já está no seu Chrome pra baixar os seus Reels. Ela assiste aos que mais deram resultado, tira os frames, transcreve e anota gancho, formato, cortes e tese. Faz o mesmo com os 3 melhores vídeos de cada perfil de referência. Fica só a análise em texto: o vídeo é apagado. Na primeira vez demora mais, porque baixa o modelo de transcrição.</p></div>
   </section>
 
   <section id="apify">
-    <p class="eyebrow">06 · Ler seu perfil</p>
-    <h2>Print ou Apify</h2>
-    <p class="sub">A Fábrica precisa dos números dos seus posts pra saber o que funciona. Você escolhe no questionário.</p>
+    <p class="eyebrow">06 · Seus números</p>
+    <h2>Apify lê sozinha, e o resto vem por print</h2>
+    <p class="sub">A Fábrica precisa dos números dos seus posts pra saber o que funciona. A Apify lê o que é público. O que só o Instagram mostra pra você, ela pede por print, dizendo exatamente qual tela abrir.</p>
     <div class="grid2">
-      <div class="card"><div class="tag">Sem cadastro</div><h3>Mandar print</h3><p>Print do topo do perfil e dos últimos posts, com curtidas e comentários. Funciona, mas toda semana a Fábrica vai te pedir de novo.</p></div>
-      <div class="card"><div class="tag">Automático · recomendado</div><h3>Conectar a Apify</h3><p>Lê o seu perfil e os das referências sozinha, sem pedir senha do Instagram. O plano grátis cobre o uso normal.</p>
+      <div class="card"><div class="tag">Automático</div><h3>Conectar a Apify</h3><p>Lê o seu perfil e os das referências sem pedir senha do Instagram.</p>
         <ol class="steps" style="margin-top:12px">
           <li><h3>Criar a conta</h3><p><a href="https://console.apify.com/sign-up" target="_blank" rel="noopener">console.apify.com/sign-up</a>. Dá pra entrar com o Google.</p></li>
           <li><h3>Copiar o token</h3><p>Em <a href="https://console.apify.com/settings/integrations" target="_blank" rel="noopener">Settings, Integrations</a>, copie o "Personal API token".</p></li>
           <li><h3>Colar quando o questionário pedir</h3><p>Ele guarda o token só num arquivo da sua pasta e testa na hora.</p></li>
-        </ol></div>
+        </ol>
+        <p style="margin-top:10px">Lê: seguidores, curtidas, comentários (inclusive o texto), visualizações, duração, áudio e número de slides. Seus e das referências.</p></div>
+      <div class="card"><div class="tag">Quando ela pedir</div><h3>Mandar o print certo</h3><p>Alcance, salvamentos, compartilhamentos, visitas ao perfil e retenção o Instagram não libera pra ferramentas de fora. Sete dias depois de você publicar, a Fábrica pede:</p>
+        <ol class="steps" style="margin-top:12px">
+          <li><h3>Abra o post no Instagram</h3><p>Toque em <b>Ver insights</b>, logo acima da legenda. Se não aparecer, toque em ⋯ e depois em Ver insights.</p></li>
+          <li><h3>Print das abas</h3><p><b>Visão geral</b> e <b>Engajamento</b>. Se for Reels, desça até o <b>gráfico de retenção</b> e tire print também.</p></li>
+          <li><h3>Arraste no app</h3><p>Na tela do post, em "Falta o print dos insights". Ela lê os números e apaga as imagens.</p></li>
+        </ol>
+        <p style="margin-top:10px">Os nomes das telas podem mudar um pouco conforme a versão do Instagram.</p></div>
     </div>
-    <p style="color:var(--ink-2);font-size:15px;margin-top:14px">O que a Apify lê: seguidores, curtidas, comentários e visualizações de cada Reels, seus e das referências. O que ela não lê: alcance real, salvamentos e retenção. Isso vem numa próxima versão.</p>
+    <div class="card" style="margin-top:14px"><h3>Onde o público parou no vídeo</h3><p>É estudo avançado: na conversa, peça "analisa a retenção desse Reels" e mande o print do gráfico. A Fábrica cruza o segundo da queda com o que acontecia no vídeo (corte, troca de plano, frase).</p></div>
   </section>
 
   <section id="dia">
@@ -258,25 +265,28 @@ footer .in{max-width:1120px;margin:0 auto}
     <h2>Abrir o app e trabalhar por ele</h2>
     <p class="sub">No Claude, na pasta da Fábrica, digite <b>/fabrica:painel</b>. O app abre no navegador do computador (endereço 127.0.0.1). Ele funciona só nessa máquina, enquanto o Claude estiver aberto.</p>
     <div class="app" aria-label="Exemplo do app da Fábrica">
-      <div class="top"><b>Fábrica de Conteúdo · @seu.perfil</b><span><span class="chip">Ideias 4</span><span class="chip">Posts 1</span><span class="chip">Meus vídeos 8</span><span class="chip">Memória</span></span></div>
-      <div class="body">
-        <div>
-          <div class="mini on"><span class="chip">Carrossel</span><span class="chip">Pronto</span><br><b>75% das pequenas empresas usam computador. Isso não é ter gestão</b><br><span style="color:var(--muted)">Sebrae, via SBT News</span></div>
-          <div class="mini"><span class="chip">Reels</span><span class="chip">Ideia</span><br><b>O WhatsApp da sua empresa começou a cobrar por conversa</b><br><span style="color:var(--muted)">Forbes Brasil</span></div>
+      <div class="top"><b>Fábrica de Conteúdo · @seu.perfil</b></div>
+      <div class="body" style="grid-template-columns:minmax(0,.55fr) minmax(0,1.45fr)">
+        <div style="font-size:13px;color:var(--ink-2)">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin:2px 0 4px">CONVERSA</div><div class="mini on" style="padding:6px 10px">Nova conversa</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin:10px 0 4px">CONTEÚDO</div><div>Ideias <span class="chip">4</span></div><div>Produção <span class="chip">2</span></div><div>Publicados <span class="chip">1</span></div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin:10px 0 4px">APRENDIZADO</div><div>O que a Fábrica sabe</div><div>Vídeos analisados</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin:10px 0 4px">PERFIL</div><div>Seu perfil</div>
         </div>
         <div class="mini" style="margin:0">
-          <b>Ensinar a Fábrica</b><br><span class="chip">Notícia boa</span><span class="chip">Notícia ruim</span><span class="chip">Notícia boa, ângulo ruim</span><span class="chip">Tom errado</span>
-          <div style="margin-top:10px"><b>Trilha de produção · 8 etapas</b></div>
-          <ul class="trail"><li>Fonte</li><li>Formato e ângulo</li><li>Gancho <span class="chip s">ig-hook-extractor</span></li><li>Texto <span class="chip s">ig-carousel-planner</span></li><li>Revisão anti-IA <span class="chip s">ig-humanizer</span>: 3 trocas</li><li>Briefing pro designer</li></ul>
+          <div style="text-align:right;margin-bottom:8px"><span style="background:var(--navy-2);color:#fff;border-radius:14px;padding:6px 12px;display:inline-block">Lembra que eu nunca uso a palavra "alavancar"</span></div>
+          <div style="background:var(--surface-2);border-radius:14px;padding:8px 12px;margin-bottom:8px">Deixei a regra pra você confirmar.</div>
+          <div style="border:1px solid var(--sky);background:var(--sky-soft);border-radius:12px;padding:10px 12px"><b>A Fábrica quer guardar isto</b><br>Nunca usar a palavra "alavancar" nos posts.<br><span class="chip" style="background:var(--navy-2);color:#fff;margin-top:6px">Salvar</span><span class="chip">Não guardar</span></div>
         </div>
       </div>
     </div>
     <ol class="steps" style="margin-top:14px">
-      <li><h3>Ensine nas ideias</h3><p>Um clique por ideia: boa, ruim, ângulo ruim ou tom errado. Diga o porquê quando puder, é o que mais ensina.</p></li>
-      <li><h3>Traga o seu assunto</h3><p>No campo do topo: um tema, um link de notícia ou o link de um post de outra pessoa. Se for vídeo, ele assiste antes.</p></li>
-      <li><h3>Produza</h3><p>Escolha Reels, carrossel, post fixo, ou deixe a Fábrica decidir. Cada etapa aparece na trilha; abra pra ver o que saiu.</p></li>
-      <li><h3>Ajuste conversando</h3><p>Embaixo do post, escreva o que mudar. Se for preferência fixa ("nunca lista numerada"), ela guarda como regra.</p></li>
-      <li><h3>Entregue e marque</h3><p>"Montar pacote de entrega" gera o texto pronto pro designer e pro social. Depois: gravado, com designer, publicado.</p></li>
+      <li><h3>Converse</h3><p>Em Conversa, peça como pediria pra alguém da equipe. Ela já sabe quem você é. Só ficam ali as conversas que você começou no app.</p></li>
+      <li><h3>Decida cada ideia nova</h3><p>Vou usar, Guardar pra depois ou Descartar. Ideia sem decisão em 7 dias vai sozinha pro Arquivo, então a lista nunca vira depósito. Descartar ensina o radar.</p></li>
+      <li><h3>Traga o seu assunto</h3><p>Em Ideias: um tema, um link de notícia ou o link de um post de outra pessoa. Se for vídeo, ela assiste antes.</p></li>
+      <li><h3>Produza e ajuste</h3><p>Escolha Reels, carrossel, post fixo, ou deixe ela decidir. O post aparece em Produção com cada etapa numerada e uma conversa só dele pra ajustar.</p></li>
+      <li><h3>Publique</h3><p>No post, cole o link do Instagram e clique em Marcar como publicado. Sete dias depois, ele aparece analisado em Publicados.</p></li>
+      <li><h3>Confirme o que ela aprende</h3><p>Quando ela quiser guardar uma regra ou mudar seu perfil, aparece um cartão: Salvar ou Não guardar. Nada entra na memória sem o seu ok.</p></li>
     </ol>
   </section>
 
@@ -284,7 +294,7 @@ footer .in{max-width:1120px;margin:0 auto}
     <p class="eyebrow">08 · Sozinha</p>
     <h2>O que roda sem você pedir</h2>
     <div class="grid2">
-      <div class="card"><div class="tag">Todo dia · 7h</div><h3>Ideias do dia</h3><p>Busca nas suas fontes, filtra pelo que você ensinou e deixa as ideias prontas no app.</p></div>
+      <div class="card"><div class="tag">Todo dia · 7h</div><h3>Ideias do dia e análise de 7 dias</h3><p>Busca nas suas fontes, filtra pelo que você ensinou e deixa as ideias prontas no app. E fecha a análise dos posts que completaram 7 dias no ar.</p></div>
       <div class="card"><div class="tag">Toda segunda · 8h</div><h3>Leitura semanal</h3><p>Puxa os números, assiste aos vídeos novos, cruza o que foi publicado com o resultado e grava o que funciona.</p></div>
     </div>
     <p style="color:var(--ink-2);font-size:15px;margin-top:12px">As rotinas aparecem em "Tarefas agendadas" no app do Claude. Elas rodam com o app aberto. Se o computador estiver desligado na hora, rodam quando ligar.</p>
@@ -313,12 +323,12 @@ footer .in{max-width:1120px;margin:0 auto}
     <h2>Onde a Fábrica guarda o que aprende</h2>
     <p class="sub">Tudo fica na sua pasta, em arquivos de texto que você pode abrir. Atualizar a Fábrica nunca apaga isso.</p>
     <div class="grid3">
-      <div class="card"><div class="tag">memoria/aprendizado.md</div><h3>O que você ensinou</h3><p>Cada clique de feedback e cada regra pedida num ajuste. Errou? Apague a linha.</p></div>
+      <div class="card"><div class="tag">memoria/aprendizado.md</div><h3>O que você ensinou</h3><p>Cada clique de feedback e cada regra que você confirmou no cartão. Errou? Apague a linha.</p></div>
       <div class="card"><div class="tag">memoria/o-que-funciona.md</div><h3>O que deu resultado</h3><p>Só entra com número: 3 posts ou mais, acima da sua média.</p></div>
       <div class="card"><div class="tag">memoria/videos/</div><h3>Seus vídeos e as referências</h3><p>Uma análise por vídeo: gancho, formato, cortes, tese, resultado.</p></div>
       <div class="card"><div class="tag">memoria/roteiros/</div><h3>O que você já tinha</h3><p>Roteiros e textos que você mandou no questionário.</p></div>
-      <div class="card"><div class="tag">perfil/</div><h3>Quem você é</h3><p>Voz, público, fontes, referências, equipe. Pra mudar: /fabrica:comecar voz (ou fontes, angulos…).</p></div>
-      <div class="card"><div class="tag">dados/</div><h3>Ideias e posts</h3><p>Cada ideia com a trilha de produção completa.</p></div>
+      <div class="card"><div class="tag">perfil/</div><h3>Quem você é</h3><p>Voz, público, oferta, fontes, referências, equipe. Pra mudar, peça na conversa: ela mostra o antes e o depois.</p></div>
+      <div class="card"><div class="tag">dados/</div><h3>Ideias, posts e conversas</h3><p>Cada ideia com a trilha completa, do assunto até a análise de 7 dias.</p></div>
     </div>
   </section>
 
@@ -331,7 +341,7 @@ footer .in{max-width:1120px;margin:0 auto}
   <section id="checklist">
     <p class="eyebrow">12 · Checklist</p>
     <h2>Fez? Marque aqui</h2>
-    <div class="meter"><b id="cnt">0/9</b><div class="track"><i id="bar"></i></div></div>
+    <div class="meter"><b id="cnt">0/10</b><div class="track"><i id="bar"></i></div></div>
     <div class="check" id="check"></div>
   </section>
 
@@ -345,17 +355,17 @@ footer .in{max-width:1120px;margin:0 auto}
 
 <footer><div class="in">
   <p><b>Fábrica de Conteúdo · Star Conect.</b> Feita em cima de dois projetos abertos (licença MIT): <a href="https://github.com/sergebulaev/instagram-skills" target="_blank" rel="noopener">instagram-skills</a>, de Sergey Bulaev, e <a href="https://github.com/bradautomates/claude-video" target="_blank" rel="noopener">claude-video (watch)</a>. Sem vínculo com Anthropic, Meta ou os autores desses projetos.</p>
-  <p>Testado em 13/10/2026 num Mac, com Claude Pro: instalação, questionário, ideias, produção de carrossel, ajuste, leitura de vídeos e leitura semanal. Ainda não testado: Windows e publicação pela Publora.</p>
+  <p>Versão 0.3, testada em 13/10/2026 num Mac: instalação, questionário, ideias, produção de carrossel, conversa no app com confirmação antes de salvar, arquivo automático das ideias, análise de 7 dias pela Apify, leitura de vídeos. Ainda não testado: Windows e publicação pela Publora.</p>
 </div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const $=q=>document.querySelector(q);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const REPO="starconect/fabrica-conteudo-ig";
+const REPO="Grupo-Star-Conect/fabrica-conteudo-ig";
 const STEPS={
  mac:[
-  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a conta do plano Pro."},
+  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a sua conta do Claude (plano Pro ou superior)."},
   {t:"Instale o Claude Code no Terminal",c:["curl -fsSL https://claude.ai/install.sh | bash"],see:"Depois, feche e abra o Terminal de novo e rode claude --version. Deve aparecer um número de versão."},
   {t:"Entre na sua conta pelo Terminal",c:["claude"],p:"Dentro dele, digite /login, entre com a mesma conta e saia com /exit. É isso que faz os botões do app funcionarem."},
   {t:"Instale o ffmpeg (pra assistir aos vídeos)",c:["/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"","brew install ffmpeg"],p:"O primeiro comando instala o Homebrew (pula se já tiver). Se o Mac pedir pra instalar as ferramentas de linha de comando, aceite: elas trazem o Python 3."},
@@ -363,7 +373,7 @@ const STEPS={
   {t:"Comece",p:"Crie uma pasta vazia, abra o app do Claude na aba Code nessa pasta e digite /fabrica:comecar. Se o Claude já estava aberto, abra uma conversa nova."}
  ],
  win:[
-  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a conta do plano Pro."},
+  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a sua conta do Claude (plano Pro ou superior)."},
   {t:"Instale o Claude Code no PowerShell",c:["irm https://claude.ai/install.ps1 | iex"],see:"Feche e abra o PowerShell de novo e rode claude --version. Deve aparecer um número de versão."},
   {t:"Entre na sua conta",c:["claude"],p:"Digite /login, entre com a mesma conta e saia com /exit."},
   {t:"Instale Python e ffmpeg",c:["winget install Python.Python.3.12","winget install Gyan.FFmpeg"],p:"Feche e abra o PowerShell depois."},
@@ -373,17 +383,20 @@ const STEPS={
 };
 const PERG=[
  ["Seu @ do Instagram","É por ele que a Fábrica lê o seu perfil e já te mostra o que entendeu.","@seu.perfil","\"meu perfil de trabalho\""],
- ["Como ler o seu perfil","Print ou Apify. Veja a seção 06.","Apify, com o token colado","\"tanto faz\""],
  ["O que você já fez","Roteiros, legendas, posts planejados. Pode colar, dizer a pasta do computador ou mandar o link do Drive. Vira voz, ideia e o que não repetir.","\"os roteiros estão na pasta Conteúdo/Roteiros\"","\"não lembro\" (se não tiver nada, diga que não tem)"],
- ["Sua voz","Sai das suas legendas, não de adjetivo. Ele monta e te mostra uma legenda nova pra você conferir.","Colar 3 a 6 legendas reais","\"sou descontraído e profissional\""],
- ["Público e objetivo","Quem é o seguidor que importa e o que cada formato deve buscar.","\"dono de empresa pequena B2B que vive apagando incêndio\"","\"empreendedores em geral\""],
- ["Fontes de assunto","Ele sugere de 5 a 8 fontes oficiais do seu nicho. Você risca e acrescenta.","Riscar o que não lê e somar o que acompanha","Aceitar tudo sem olhar"],
- ["Referências","De 2 a 5 perfis que você admira, e o que admira em cada um. Ele assiste aos melhores vídeos deles.","\"@perfil: o jeito de abrir com pergunta sobre a notícia\"","Só os nomes"],
- ["Volume","Quantos posts por semana você consegue manter de verdade. Formato, dia e gancho a Fábrica decide e testa.","\"3 por semana, e às vezes não consigo gravar\"","\"todo dia\" (se não for verdade)"],
- ["Equipe","Quem faz a arte, quem posta, e como cada um recebe hoje.","\"Diogo faz a arte, recebe no WhatsApp\"","\"eu vejo depois\""]
+ ["O que seu cliente fala pra não comprar?","Cada desculpa vira um post que quebra essa crença.","\"acha caro e diz que vai pensar\"","\"não sei\""],
+ ["Quais perguntas mais chegam no direct e nos comentários?","É a lista de pautas que o seu público já pediu. Ela mostra as que achou nos comentários.","\"se funciona pra empresa pequena\"","\"de tudo um pouco\""],
+ ["Como o cliente descreve o problema, com as palavras dele?","Pro texto soar como o cliente fala, não como propaganda. Pode colar mensagens reais, sem nome.","Colar 3 mensagens de clientes","\"ele quer crescer\""],
+ ["Como fica a vida do cliente depois de comprar de você? Por que você e não outro?","A promessa e o diferencial que os posts vão sustentar.","\"sabe quanto entra e quanto sai sem abrir planilha\"","\"qualidade e atendimento\""],
+ ["Que resultados, números ou depoimentos você pode mostrar?","Prova de verdade. Sem isso, a Fábrica não cita número nenhum.","\"cliente X dobrou o fechamento em 3 meses\"","Inventar número"],
+ ["Sobre o que você não fala de jeito nenhum? Com quem não quer parecer?","Tema proibido e o tipo de perfil que você não quer imitar.","\"política; não quero parecer guru de palco\"","Pular"],
+ ["Depois do post, pra onde a pessoa deve ir? E o que é dar certo pra você?","O convite do fim do post e o número que a Fábrica acompanha toda semana.","\"chamar no direct; 5 conversas por semana\"","\"vender mais\""],
+ ["Sua voz","Sai das suas legendas e vídeos, não de adjetivo. Ela monta e mostra uma legenda nova pra você conferir.","Colar 3 a 6 legendas reais","\"sou descontraído e profissional\""],
+ ["Fontes e referências","Ela sugere fontes oficiais do seu nicho; você risca e acrescenta. E de 2 a 5 perfis que você admira, e o quê.","\"@perfil: o jeito de abrir com pergunta\"","Aceitar tudo sem olhar"],
+ ["Volume e equipe","Quantos posts por semana você aguenta de verdade, e quem faz a arte e posta. Formato, dia e gancho a Fábrica decide e testa.","\"3 por semana; Diogo faz a arte, recebe no WhatsApp\"","\"todo dia\" (se não for verdade)"]
 ];
 const CUID=[
- ["Ela escreve, você aprova","Nada vai ao ar sozinho. Publicar só existe com Publora ligada, e mesmo assim depois do seu \"pode publicar\"."],
+ ["Ela escreve, você aprova","Nada vai ao ar sozinho, e nada entra na memória sem o seu ok no cartão."],
  ["Instale só dos repositórios oficiais","Os comandos da seção 03 apontam pros repositórios certos. Plugin roda com as suas permissões no computador."],
  ["Token é senha","O token da Apify fica só no arquivo .env da sua pasta. Não mande em print, conversa ou grupo. Vazou? Gere outro na Apify."],
  ["O Chrome só com a sua autorização","A Fábrica usa o login do Instagram do Chrome só pra baixar os seus vídeos, se você autorizar. O vídeo é apagado depois de assistido."],
@@ -395,9 +408,10 @@ const CHECK=[
  "Loguei no Terminal (claude -p responde ok)",
  "Respondi o /fabrica:comecar",
  "Mandei o que eu já tinha (roteiros, textos)",
- "Ensinei a Fábrica em pelo menos 3 ideias",
- "Produzi o primeiro post e abri a trilha",
- "Fiz um ajuste conversando",
+ "Decidi as ideias novas (usar, guardar ou descartar)",
+ "Produzi o primeiro post e abri as etapas",
+ "Fiz um ajuste conversando e confirmei um cartão",
+ "Marquei um post como publicado, com o link",
  ["O token da Apify está só no .env, fora de print e conversa","seg"],
  ["Instalei só pelos comandos oficiais deste guia","seg"]
 ];
@@ -408,13 +422,15 @@ const FAQ=[
  ["Instalei mas o /fabrica não aparece","Abra uma conversa nova no app do Claude. Plugin novo só entra em sessão nova."],
  ["O botão do app dá \"deslogado\" ou \"OAuth session expired\"","O Claude do Terminal perdeu o login. Rode claude, depois /login, e entre com a mesma conta."],
  ["O app não abre","No Claude, na pasta da Fábrica, rode /fabrica:painel de novo. O endereço é 127.0.0.1 e só abre no computador onde a Fábrica está."],
- ["\"APIFY_TOKEN não encontrado\" ou \"crédito acabou\"","Rode /fabrica:comecar e escolha a parte da Apify pra colar o token de novo. Sem crédito, a Fábrica pede print até o mês virar."],
+ ["\"APIFY_TOKEN não encontrado\" ou a Apify parou de ler","Rode /fabrica:comecar e escolha a parte da Apify pra colar o token de novo. Enquanto isso, a Fábrica pede print."],
+ ["A Fábrica pediu um print: de qual tela?","O pedido aparece na tela do post com o passo a passo. Em resumo: abra o post no Instagram, Ver insights, print de Visão geral e Engajamento (e da retenção, se for Reels). Arraste no app."],
+ ["A conversa não responde ou dá erro","Veja se o Claude do Terminal está logado (seção 04, passo 3). Se a resposta anterior ainda está chegando, espere ela terminar."],
  ["O vídeo não baixa","Perfil privado ou o Instagram pedindo login. Autorize o uso do Chrome no questionário (você precisa estar logado no Instagram no Chrome)."],
  ["A primeira leitura de vídeo demora muito","Na primeira vez ele baixa o modelo de transcrição. As próximas são bem mais rápidas."],
  ["A rotina das 7h não rodou","O app do Claude precisa estar aberto. Se estava fechado, ela roda quando você abrir."],
  ["O post saiu com cara de IA ou fora do meu tom","Ajuste conversando e diga o que soou errado. Se for sempre assim, aceite guardar como regra. Use também o botão Tom errado."],
  ["As ideias não têm nada a ver comigo","Use Notícia ruim com o motivo. Se forem as fontes, rode /fabrica:comecar fontes."],
- ["Quero mudar minha voz, público ou referências","/fabrica:comecar voz, /fabrica:comecar referencias e assim por diante. Ele refaz só aquele pedaço e mostra o antes e depois."],
+ ["Quero mudar minha voz, público ou referências","Peça na conversa do app (ex.: \"acrescenta este perfil nas referências\"). Ela mostra o antes e o depois e você confirma. Pra refazer um bloco inteiro: /fabrica:comecar voz, /fabrica:comecar referencias…"],
  ["Como atualizo a Fábrica?","claude plugin marketplace update fabrica-star-conect e depois claude plugin update fabrica@fabrica-star-conect. A sua pasta e a memória não mudam."]
 ];
 const TAREFAS=[

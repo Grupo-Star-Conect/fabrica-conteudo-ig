@@ -3,7 +3,7 @@
 Plugin do Claude Code que monta e opera uma Fábrica de Conteúdo de Instagram pra qualquer perfil:
 
 - **`/fabrica:comecar`:** questionário que lê o seu perfil, assiste aos seus vídeos, confirma voz, público e objetivos, adapta os agentes a você, cria a memória e agenda as rotinas.
-- **`/fabrica:painel`:** abre o app no navegador do computador. É ali que se trabalha no dia a dia.
+- **`/fabrica:painel`:** abre o app no navegador do computador: conversa com a Fábrica, ideias, produção, publicados (análise de 7 dias), o que ela aprendeu e o seu perfil. É ali que se trabalha no dia a dia.
 - **`/fabrica:radar`:** ideias do dia, com link da fonte e o porquê de cada uma.
 - **`/fabrica:trazer`:** transforma tema, link de notícia ou link de post de outra pessoa em ideia.
 - **`/fabrica:produzir`:** produz o post passando por cada etapa, com trilha visível: fonte, formato e ângulo, gancho, texto, legenda, hashtags, revisão anti-IA e briefing.
@@ -17,14 +17,14 @@ Usa por baixo dois plugins abertos: [instagram-skills](https://github.com/sergeb
 
 ## Instalar
 
-Pré-requisitos: Claude Pro, Claude Code logado no Terminal (`claude` → `/login`), Python 3 e ffmpeg.
+Pré-requisitos: Mac, conta do Claude (Pro ou superior), Claude Code logado no Terminal (`claude` → `/login`), Python 3 e ffmpeg.
 
 ```
 claude plugin marketplace add sergebulaev/instagram-skills
 claude plugin install instagram-skills@instagram-skills
 claude plugin marketplace add bradautomates/claude-video
 claude plugin install watch@claude-video
-claude plugin marketplace add <origem-deste-repo>
+claude plugin marketplace add Grupo-Star-Conect/fabrica-conteudo-ig
 claude plugin install fabrica@fabrica-star-conect
 ```
 

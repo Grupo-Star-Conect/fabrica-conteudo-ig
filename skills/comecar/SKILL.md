@@ -58,9 +58,9 @@ A pessoa nunca mais vai precisar explicar nicho, público ou objetivo.
 
 Pergunte o @ do Instagram.
 
-Depois pergunte como ela quer que você leia o perfil e as referências. Explique as duas opções em uma linha cada:
-- **Mandar print ou colar os posts:** grátis, mas você mesma manda quando eu pedir.
-- **Conectar a Apify:** grátis até US$5 por mês, e eu leio sozinho toda semana. Leva uns 3 minutos pra conectar.
+Depois explique, em duas linhas, como a Fábrica vai ler os números:
+- **Apify (padrão):** eu leio sozinho o seu perfil e os das referências toda semana, sem senha do Instagram. Leva uns 3 minutos pra conectar.
+- **Print:** o que o Instagram só mostra pra você (alcance, salvamentos, retenção) eu peço por print, dizendo qual tela abrir. Se ela não quiser a Apify agora, tudo vai por print.
 
 **Se escolher Apify:**
 1. Passo a passo:
@@ -188,6 +188,7 @@ Explique que esse vai ser o padrão de todo pedido, e que ela só precisa dizer 
 
 Peça autorização em uma frase: "Posso usar o login do Instagram que está no seu Chrome pra baixar seus Reels e assistir? Eu guardo só a análise em texto e apago o vídeo."
 - Se sim, grave `"chrome_autorizado": true` no `config.json`.
+- **Se esta sessão tiver o Claude in Chrome** (ferramentas `mcp__claude-in-chrome__*`), pergunte também: "Posso ler os insights dos seus posts no Business Suite pelo Chrome, em vez de te pedir print? Só leio, nunca publico nem mexo em anúncio." Se sim, grave `"chrome_dados": true`.
 - Se não, só vídeos públicos.
 
 Rode o agente `/fabrica:assistir` com:
@@ -228,7 +229,7 @@ Pergunte se ela quer que carrossel e post de imagem possam ser publicados direto
 
 **Se sim**, explique que isso pede três coisas:
 - conta comercial ou de criador no Instagram;
-- conta na Publora (https://app.publora.com/signup, paga);
+- conta na Publora (https://app.publora.com/signup);
 - o `PUBLORA_API_KEY` e o `INSTAGRAM_PLATFORM_ID` no `.env`.
 
 Pode deixar pra depois: `/fabrica:comecar publicar`.
