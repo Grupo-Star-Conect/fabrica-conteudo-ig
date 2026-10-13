@@ -1,66 +1,54 @@
 ---
 name: radar
-description: Agente Radar da Fábrica de Conteúdo. Busca notícias e assuntos do nicho nas fontes aprovadas, guarda as notícias com link oficial e gera as pautas do dia (com o post já montado na voz da pessoa) direto no painel. Roda sozinho todo dia pela rotina agendada, ou à mão com /fabrica:radar. Com argumento busca um assunto específico - /fabrica:radar "lançamento X".
+description: Busca ideias de post pro perfil da pessoa - notícias e assuntos do nicho nas fontes aprovadas, filtrados pelo que ela já ensinou (memória). Entrega SÓ IDEIAS (assunto, fonte, por que serve), sem produzir o post; a produção acontece quando ela clica em Produzir. Roda pela rotina diária, pelo botão "Buscar ideias agora" do app ou com /fabrica:radar [assunto].
 ---
 
 # /fabrica:radar
 
-Rode na pasta da Fábrica. Antes de tudo, leia:
-- `CLAUDE.md`;
-- `perfil/marca.md`, `perfil/voz.md`, `perfil/angulos.md`, `perfil/fontes.md`;
+**Camadas:** este arquivo é o SISTEMA (como buscar). As fontes, os temas e o que a pessoa gosta ou não gosta moram na pasta dela (`perfil/fontes.md`, `meus-agentes/radar.md`, `memoria/`).
+
+`FAB` = `python3 "<diretório base desta skill>/../../scripts/fab.py"`, rodado na pasta da Fábrica.
+
+## 1. Contexto
+
+Leia:
+- `perfil/marca.md`, `perfil/fontes.md`;
 - `meus-agentes/radar.md`;
-- `config.json`.
+- `memoria/aprendizado.md`, `memoria/o-que-funciona.md`.
 
-Se `perfil/` não existir, diga para rodar `/fabrica:comecar` e pare.
+Rode `FAB ideias` pra ver o que já existe e não repetir.
 
-## 1. O que já existe no painel
-
-Com ArtifactData (`url` = `painel_url` do `config.json`), leia:
-- `list` de `pautas` (limit 100): títulos e status;
-- `list` de `noticias` (limit 100): urls.
-
-Isso é pra não repetir pauta nem notícia.
+**Aprendizado manda.**
+- "Notícia ruim" de um tipo de assunto: pare de trazer esse tipo.
+- "Notícia boa": traga mais do mesmo tipo.
+- "Ângulo ruim": o assunto serve, então traga, mas no `por_que` proponha outro jeito de olhar.
 
 ## 2. Buscar
 
-1. **Fontes:** para cada fonte de `perfil/fontes.md`, na ordem de `meus-agentes/radar.md`, busque o que saiu nas **últimas 48 horas** (WebSearch, WebFetch na página de notícias da fonte).
-2. **Assunto em alta:** pesquise também 2 ou 3 buscas amplas do nicho ("<nicho> novidade hoje", termos que o público usa).
-3. **Notícia que entra:** tem link oficial que abre, data clara e relação direta com o público da pessoa.
-4. **Notícia que sai:** boato sem fonte, notícia velha requentada e tema da lista de evitar.
-5. **Meta:** de 6 a 15 notícias. Abra o link de cada uma pra confirmar que existe e que diz o que você vai dizer.
+- Fontes de `perfil/fontes.md`: o que saiu nas últimas 72h (WebSearch + WebFetch na página de notícias).
+- 2 ou 3 buscas amplas do nicho com as palavras que o público dela usa.
+- Se veio um assunto como argumento, busque só ele.
+- Abra cada link: precisa existir, ter data e dizer o que você vai dizer. Boato, notícia velha e tema bloqueado na memória saem.
 
-Se veio argumento, busque só aquele assunto.
+## 3. Escolher e gravar ideias
 
-## 3. Montar as pautas
+Escolha a quantidade de `meus-agentes/radar.md` (padrão: 4). Critério: o que mais serve **ao público e ao objetivo dela**, não o que é maior na mídia.
 
-1. **Quantidade e mistura:** escolha as N melhores notícias, com N e a mistura Reels/carrossel definidos em `meus-agentes/radar.md`. **Melhor** = o que mais serve ao objetivo da pessoa e ao público dela, não o que é maior na mídia.
-2. **Pauta sem notícia:** se a cadência pede e o dia está fraco, uma pauta pode vir de educação do nicho sem notícia. Nesse caso, `fonte` = null.
-3. **Para cada pauta, decida:** categoria, ângulo e virada (de `perfil/angulos.md`), gancho e formato.
-4. **Monte o post** seguindo o agente `/fabrica:fabricar` (as regras dele valem aqui):
-   - **Reels:** roteiro falado + legenda + hashtags;
-   - **Carrossel:** slides + legenda + hashtags.
+Uma ideia pode ser sem notícia (bastidor, educação, história) quando o dia estiver fraco.
 
-## 4. Gravar no painel
+Para cada ideia:
+```
+FAB ideia-nova '{"titulo":"…","por_que":"2-3 linhas: por que isso interessa ao público dela e que ângulo dá","fonte":{"nome":"…","url":"…"} ou null,"resumo_fonte":"3-5 linhas do que a fonte diz, com data","tipo_sugerido":"reels|carrossel|post","origem":"radar"}'
+```
+Título curto e concreto, do jeito que ela falaria.
 
-Um `batch` só com ArtifactData:
+## 4. Memória
 
-- **`noticias/<id>`:** cada notícia nova. O id é slug curto do título, só letras, números e `-`, até 60 caracteres. Campos: `titulo, url, fonte, data, usada` (`true` se virou pauta hoje).
-- **`pautas/<AAAAMMDD-n>`:** cada pauta. Campos:
-  - `data` (hoje), `tipo` (`reels` | `carrossel`), `categoria`, `titulo`, `gancho`, `angulo`;
-  - `fonte` (`{nome, url}` ou null);
-  - `status`: `sugerida`;
-  - `conversa`: `[]`;
-  - `origem`: `radar`;
-  - `post`: `{roteiro}` ou `{slides: [...]}`, mais `legenda` e `hashtags` (lista).
+`FAB historico "Radar: N ideias (<títulos curtos>)"`.
 
-## 5. Fechar
-
-1. **Pautas velhas:** pautas `sugerida` com mais de 7 dias passam pra `descartada` numa segunda escrita. Leia a versão de cada uma e use `if_version`.
-2. **Na rotina automática:** termine com uma linha (quantas notícias, quantas pautas).
-3. **Quando a pessoa rodou à mão:** liste as pautas em 1 linha cada e lembre o link do painel.
+Se você ignorou algo por causa da memória, anote numa linha. Ex.: "pulei 2 notícias de imposto, marcado como ruim".
 
 ## Regras
 
-- Nunca invente notícia, número, data ou citação. Sem link que abre, não entra.
-- Uma pauta por notícia. Duas notícias do mesmo fato viram uma pauta só, com a fonte mais oficial.
-- Hashtag pulse (Apify) **não** roda aqui: custa crédito. Só no analista semanal.
+- Não produza post aqui. Só ideia.
+- Nunca invente notícia, data ou número. Sem link que abre, não entra.

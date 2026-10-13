@@ -1,6 +1,6 @@
 ---
 name: comecar
-description: Questionário de instalação da Fábrica de Conteúdo. Entende quem é a pessoa, lê o perfil do Instagram, confirma voz, público, objetivos, fontes e referências, ADAPTA os agentes (radar, fabricar, analista) a esse perfil, publica o painel na conta Claude dela e deixa as rotinas rodando. Rode com /fabrica:comecar na pasta onde a Fábrica vai morar. Com argumento refaz só um bloco - /fabrica:comecar voz | angulos | fontes | referencias | formatos | equipe | publicar | painel.
+description: Questionário de instalação da Fábrica de Conteúdo. Entende quem é a pessoa, lê o perfil do Instagram, assiste aos vídeos dela, confirma voz, público, objetivos, fontes e referências, ADAPTA os agentes ao perfil, cria a memória, abre o app local e agenda as rotinas. Rode com /fabrica:comecar na pasta onde a Fábrica vai morar. Com argumento refaz só um bloco - /fabrica:comecar voz | angulos | fontes | referencias | volume | equipe | publicar | migrar.
 ---
 
 # /fabrica:comecar
@@ -8,8 +8,9 @@ description: Questionário de instalação da Fábrica de Conteúdo. Entende que
 Você vai configurar a Fábrica de Conteúdo de Instagram de uma pessoa. No fim, ela tem:
 - a pasta pronta;
 - os agentes reescritos pro perfil dela;
-- o painel publicado na conta Claude dela;
-- as primeiras pautas;
+- a memória dela começada (vídeos assistidos, o que funciona);
+- o app da Fábrica aberto no computador;
+- as primeiras ideias;
 - as rotinas agendadas.
 
 A pessoa nunca mais vai precisar explicar nicho, público ou objetivo.
@@ -18,7 +19,9 @@ A pessoa nunca mais vai precisar explicar nicho, público ou objetivo.
 
 **Pergunte só o que só a pessoa sabe.** Fato da vida dela pode ser perguntado: o que vende, pra quem, quanto consegue produzir, quem é a equipe, como fala. Decisão de criação **nunca** vira pergunta: quando usar tela dividida, texto na tela ou narração, qual gancho, qual ângulo, que dia postar. Essas decisões são trabalho da Fábrica. Ela testa variações enquanto não tem dado e repete o que funcionou quando passa a ter. Se a pessoa disser "não sei" ou "decide você", isso é a resposta certa: registre que a Fábrica decide e siga.
 
-**Pasta de trabalho:** a pasta atual. Os arquivos do plugin ficam em `${CLAUDE_PLUGIN_ROOT}`.
+**Pasta de trabalho:** a pasta atual. `PLUGIN` = `<diretório base desta skill>/../..`. `FAB` = `python3 "PLUGIN/scripts/fab.py"`.
+
+**Camadas:** o plugin é o SISTEMA (método, etapas, app) e atualiza sozinho. A pasta é da PESSOA (perfil, agentes adaptados, memória, dados) e nenhuma atualização mexe nela. Tudo que você descobre sobre ela vai pra pasta.
 
 ## Passo 0. Conferir a casa
 
@@ -26,16 +29,30 @@ A pessoa nunca mais vai precisar explicar nicho, público ou objetivo.
    - leia os arquivos atuais;
    - refaça só aquele bloco;
    - mostre antes/depois;
-   - grave nos arquivos e no painel;
+   - grave nos arquivos;
    - termine. Pule o resto deste roteiro.
+1b. **Migrar da versão antiga.** Se `config.json` tem `painel_url` (versão com painel no Claude) ou veio o argumento `migrar`:
+   - crie `memoria/` e `dados/`;
+   - traga as pautas do painel antigo como ideias (ArtifactData `list` em `pautas` com o `painel_url`; pra cada uma, `FAB ideia-nova` com título, fonte e `por_que` = ângulo);
+   - renomeie `meus-agentes/fabricar.md` pra `meus-agentes/produzir.md`;
+   - troque o `CLAUDE.md` pelo modelo novo;
+   - tire `painel_url` do `config.json`;
+   - crie `memoria/aprendizado.md` com o que o `perfil/voz.md` já diz que ela nunca faz;
+   - siga pro Passo 5b (assistir aos vídeos) e depois os itens 8 a 11 do Passo 10 (ideias, rotinas, app, fechamento). Não refaça as perguntas. Se já existirem tarefas agendadas da versão antiga, troque o prompt delas pelos novos.
 2. **Já instalado.** Se `perfil/` existe e não veio argumento, pergunte se é pra refazer tudo ou só um bloco.
-3. **Dependência.** Confira se as skills do `instagram-skills` estão disponíveis (ex.: `instagram-skills:ig-humanizer`). Se não estiverem, pare e mostre:
+3. **Dependências.** A Fábrica usa dois plugins abertos do GitHub:
+   - `instagram-skills`: legenda, carrossel, gancho, hashtag, anti-IA;
+   - `watch` (claude-video): assistir a vídeo com frames e transcrição.
+
+   Confira se `instagram-skills:ig-humanizer` e `watch:watch` estão disponíveis. Se faltar algum, pare e mostre o que falta:
    ```
    claude plugin marketplace add sergebulaev/instagram-skills
    claude plugin install instagram-skills@instagram-skills
+   claude plugin marketplace add bradautomates/claude-video
+   claude plugin install watch@claude-video
    ```
    Depois de instalar, a pessoa abre uma conversa nova e roda `/fabrica:comecar` de novo.
-4. **Abertura.** Diga em 3 linhas o que vai acontecer: umas 10 perguntas (cerca de 15 minutos), e no fim ela ganha o painel e as primeiras pautas.
+4. **Abertura.** Diga em 3 linhas o que vai acontecer: umas 10 perguntas (cerca de 15 minutos). Depois a Fábrica assiste a alguns vídeos dela e abre o app com as primeiras ideias.
 
 ## Passo 1. Perfil
 
@@ -51,11 +68,11 @@ Depois pergunte como ela quer que você leia o perfil e as referências. Expliqu
    - abrir https://console.apify.com/settings/integrations;
    - copiar o "Personal API token";
    - colar aqui.
-2. Grave o token em `.env` na pasta (`APIFY_TOKEN=...`). Avise que ele fica só nesse arquivo, no computador dela, e nunca vai pro painel.
+2. Grave o token em `.env` na pasta (`APIFY_TOKEN=...`). Avise que ele fica só nesse arquivo, no computador dela.
 3. Garanta que `.env` não seja publicado. Crie `.gitignore` com `.env` se a pasta for virar repositório.
-4. Rode:
+4. Rode e grave os posts em `dados/posts-perfil.json` (lista `{id,url,formato,legenda,curtidas,comentarios,views,data}`):
    ```
-   python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ler_perfil.py" --env .env <handle>
+   python3 "PLUGIN/scripts/ler_perfil.py" --env .env <handle>
    ```
 5. Se der `sem_token` ou `token inválido`, ajude a corrigir. Se der erro de rede ou crédito, siga pelo caminho do print.
 
@@ -109,6 +126,16 @@ Explique que esse vai ser o padrão de todo pedido, e que ela só precisa dizer 
 1. Peça de 2 a 5 perfis que ela admira ou que concorrem com ela, e o que admira em cada um.
 2. Se a Apify estiver ligada, leia os perfis pelo mesmo script. Diga em uma linha o que cada um faz que funciona.
 
+## Passo 5b. Assistir aos vídeos dela
+
+Peça autorização em uma frase: "Posso usar o login do Instagram que está no seu Chrome pra baixar seus Reels e assistir? Eu guardo só a análise em texto e apago o vídeo."
+- Se sim, grave `"chrome_autorizado": true` no `config.json`.
+- Se não, só vídeos públicos.
+
+Rode o agente `/fabrica:assistir` com os 6 Reels mais recentes (ou os links que ela der). Antes de usar a primeira vez, rode o setup do `watch` com motor local e transcrição local (`--engine local`, `--backend whisperx`). Avise que a primeira vez baixa o modelo de transcrição e demora uns minutos.
+
+Use o que viu pra **confirmar a voz** (Passo 2) com base no que ela fala de verdade, e pra começar `memoria/o-que-funciona.md`, só com o que tiver número.
+
 ## Passo 6. Volume
 
 Pergunte uma coisa só: quantos posts por semana ela consegue manter de verdade. Ofereça faixas pra facilitar a resposta: 2 a 3, 4 a 5, 6 ou mais.
@@ -148,7 +175,7 @@ Reels continua sendo gravado e postado por ela.
 
 ## Passo 9. Ângulos
 
-1. Leia `${CLAUDE_PLUGIN_ROOT}/referencias/angulos-e-formatos.md`.
+1. Leia `PLUGIN/referencias/angulos-e-formatos.md`.
 2. Com tudo que já sabe (nicho, objetivo, o que funcionou nos posts dela), escolha:
    - as 3 ou 4 categorias principais;
    - as viradas que mais servem.
@@ -158,52 +185,52 @@ Reels continua sendo gravado e postado por ela.
 
 Crie tudo de uma vez.
 
-1. **`perfil/`**: `marca.md`, `voz.md`, `angulos.md`, `fontes.md`, `referencias.md`, `equipe.md`. Cada arquivo é curto, direto, com o que foi confirmado. Nada inventado.
-2. **`meus-agentes/`**: um arquivo por agente, com as instruções específicas dela por cima do agente da casa.
+1. **`perfil/`**: `marca.md`, `voz.md`, `angulos.md`, `fontes.md`, `referencias.md`, `equipe.md`. Cada arquivo é curto, com o que foi confirmado. Nada inventado.
+2. **`meus-agentes/`**: um arquivo por agente, só com o que é DELA, por cima do método do sistema.
    - `radar.md`:
-     - quais fontes ler e em que ordem;
-     - quantas pautas por dia (cadência semanal dividida pelos dias, mínimo 2);
-     - mistura Reels/carrossel;
-     - temas a evitar.
-   - `fabricar.md`:
+     - fontes em ordem;
+     - quantas ideias por dia (padrão 4);
+     - temas a evitar;
+     - o tipo de assunto que mais serve ao público.
+   - `produzir.md`:
      - voz resumida;
      - categorias e viradas prioritárias;
      - como ela fala nos Reels;
-     - **formatos em teste**: a lista de formatos de vídeo e de carrossel que a Fábrica vai alternar nas primeiras semanas (ver `fabricar`, seção "Formato de vídeo"), começando pelos que as referências e os posts dela sugerem;
-     - **o que já está provado**: começa vazio, e o analista preenche;
+     - formatos em teste (alternar nas primeiras semanas);
      - tamanho de carrossel;
-     - CTA padrão por objetivo;
-     - hashtags (tamanho e quantidade, pelo método do `ig-hashtag-strategist`).
+     - CTA por objetivo;
+     - hashtags.
    - `analista.md`:
      - referências;
      - Apify ou print;
-     - o que medir (pelo objetivo dela);
-     - dia da leitura semanal.
-3. **`CLAUDE.md`**: copie `${CLAUDE_PLUGIN_ROOT}/modelos/CLAUDE.md`, trocando `{{HANDLE}}`.
-4. **`config.json`**: `{"handle","apify":true|false,"publora":true|false,"painel_url":null,"radar_horario":"07:00","analista_dia":"segunda","criado":"AAAA-MM-DD"}`.
-5. **Publicar o painel:**
-   - copie `${CLAUDE_PLUGIN_ROOT}/painel/index.html` pra `painel/index.html` na pasta;
-   - publique com a ferramenta Artifact: `file_path` = esse arquivo, `capabilities` = `{"db":{},"user":{},"sample":{}}`, `icon` = `calendar`, `description` = "Painel da Fábrica de Conteúdo de @handle";
-   - grave a URL em `config.json` (`painel_url`).
-6. **Carregar o painel com ArtifactData** (`url` = `painel_url`), num `batch` só:
-   - documento `perfil/atual`, com os campos `handle, nicho, oferta, publico, objetivo_reels, objetivo_carrossel, voz` (resumo de 1-2 frases), `regras` (lista, vazia no começo), `nunca` (lista), `angulos` (lista curta), `referencias` (lista de @), `fontes` (lista de nomes), `cadencia` (frase), `formato_reels` (frase);
-   - coleção `posts`: um documento por post lido, com o id do post como `doc_id` (só letras, números, `_` e `-`). Campos: `formato, views, curtidas, comentarios, legenda, data, url`;
-   - coleção `semanas`: o ponto zero, com `doc_id` = semana ISO (ex.: `2026-W42`). Campos: `semana`, `seguidores`, `engajamento` (média de (curtidas+comentários)/seguidores×100 dos posts lidos, 1 casa), `posts` (quantos posts nos últimos 7 dias), `referencias` (`[{handle, engajamento}]` se leu as referências), `leitura` (2-3 linhas do que funciona e do que não funciona hoje).
-7. **Primeiras pautas:** rode o agente `/fabrica:radar` agora, pra que o painel já abra com pautas.
-8. **Rotinas.** Se a ferramenta de tarefas agendadas do app desktop estiver disponível (`scheduled-tasks`), crie duas:
-   - **"Fábrica - radar diário"**, todo dia no `radar_horario`. Prompt: `Na pasta <caminho absoluto da pasta>, rode /fabrica:radar.`
-   - **"Fábrica - leitura semanal"**, no `analista_dia` às 08:00. Prompt: `Na pasta <caminho>, rode /fabrica:analista.`
+     - o que medir pelo objetivo dela;
+     - dia da leitura.
+3. **`memoria/`**:
+   - `aprendizado.md`: começa com o cabeçalho "# O que você ensinou à Fábrica" e o que ela disse no questionário que é preferência ("nunca X", "gosto de Y");
+   - `o-que-funciona.md`: "# O que funciona (medido)" e o que saiu dos vídeos com número;
+   - `historico/` e `videos/`.
+4. **`dados/`**: `ideias/`, `posts-perfil.json` e `semanas.json`, este com o ponto zero da semana atual (seguidores, engajamento, referências, leitura de 2-3 linhas).
+5. **`CLAUDE.md`**: copie `PLUGIN/modelos/CLAUDE.md`, trocando `{{HANDLE}}`.
+6. **`config.json`**: `{"handle","apify":true|false,"publora":true|false,"chrome_autorizado":true|false,"radar_horario":"07:00","analista_dia":"segunda","criado":"AAAA-MM-DD"}`.
+7. **`.gitignore`** com `.env` e `.tmp-videos/`.
+8. **Primeiras ideias.** Rode `/fabrica:radar`.
+9. **Rotinas.** Se a ferramenta de tarefas agendadas do app desktop estiver disponível (`scheduled-tasks`), crie:
+   - **"Fábrica - ideias do dia"**, todo dia no `radar_horario`. Prompt: `Na pasta <caminho absoluto>, rode /fabrica:radar.`
+   - **"Fábrica - leitura semanal"**, no `analista_dia` às 08:00. Prompt: `Na pasta <caminho>, rode /fabrica:analista e depois /fabrica:assistir.`
 
-   Avise que elas rodam com o computador ligado e o app do Claude aberto, e que, se o computador estiver desligado, rodam quando ele ligar. Se a ferramenta não existir, explique como criar pelo app (menu de tarefas agendadas) com os mesmos dois prompts.
-9. **Fechamento** (curto):
-   - o link do painel;
-   - "amanhã às 7h chegam as pautas novas";
-   - o uso diário em 3 passos: abre o painel → escolhe a pauta → ajusta conversando e marca o status;
-   - "pra pedir qualquer coisa fora do painel, abra o Claude nesta pasta e peça em uma linha".
+   Avise que rodam com o computador ligado e o app do Claude aberto. Se o computador estiver desligado na hora, rodam quando ele ligar.
+10. **Abrir o app:** rode `/fabrica:painel`.
+11. **Fechamento** (curto):
+    - o endereço do app;
+    - como abrir de novo: no Claude, nesta pasta, `/fabrica:painel`;
+    - o uso diário em 3 passos:
+      1. abre o app e ensina a Fábrica nas ideias (boa, ruim, ângulo ruim);
+      2. clica em Produzir e acompanha cada etapa;
+      3. ajusta conversando e marca o status;
+    - tudo que ela ensinar fica guardado na memória e muda as próximas ideias.
 
 ## Regras
 
 - Nunca invente dado do perfil. O que não leu, pergunte.
-- Nunca grave token no painel, no `CLAUDE.md` ou em `perfil/`. Só em `.env`.
-- Escritas no painel (ArtifactData): para documento que já existe, leia (`get`) e passe o `version` como `if_version`.
-- Se alguma etapa falhar, diga o que falhou, siga com o resto e deixe anotado em `config.json` (`pendente`).
+- Token só em `.env`. Nunca em `perfil/`, `memoria/`, `CLAUDE.md` ou no app.
+- Se alguma etapa falhar, diga o que falhou, siga com o resto e anote em `config.json` (`pendente`).

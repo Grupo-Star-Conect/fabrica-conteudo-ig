@@ -1,62 +1,51 @@
 ---
 name: analista
-description: Agente Analista da Fábrica de Conteúdo. Lê o perfil da pessoa e das referências (Apify ou print), atualiza "Meus posts" e o comparativo da semana no painel, cruza o que foi postado pela fila com o resultado e escreve o que repetir e o que parar. Roda sozinho uma vez por semana, ou à mão com /fabrica:analista. Também responde "por que esse post foi bem/mal?".
+description: Lê o perfil da pessoa e das referências (Apify ou print), atualiza os números dos posts, cruza o que a Fábrica produziu e foi publicado com o resultado, e grava na memória o que funciona (só com número). Roda pela rotina semanal, pelo botão do app ou /fabrica:analista. Também responde "por que esse post foi bem/mal?".
 ---
 
 # /fabrica:analista
 
-Rode na pasta da Fábrica. Leia antes:
-- `CLAUDE.md`;
-- `perfil/marca.md`, `perfil/referencias.md`;
-- `meus-agentes/analista.md`;
-- `config.json`.
+**Camadas:** o método é do SISTEMA (este arquivo). Os números e as conclusões são da pessoa e vão pra pasta dela (`dados/`, `memoria/`).
 
-## 1. Ler os números
+`FAB` = `python3 "<diretório base desta skill>/../../scripts/fab.py"`. `LER` = `python3 "<base>/../../scripts/ler_perfil.py" --env .env`.
 
-**Se a Apify estiver ligada (`config.json` → `apify: true`):**
-```
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ler_perfil.py" --env .env <handle> <referencia1> <referencia2> ...
-```
-Se der erro de crédito ou token, avise em uma linha e caia no caminho do print.
+## 1. Números
 
-**Se não estiver (ou se falhar):**
-- **Rotina automática:** não dá pra pedir print. Grave só a leitura da fila e deixe no `leitura` da semana: "Manda o print do perfil pra eu fechar a semana".
-- **Pessoa rodando à mão:** peça o print do topo do perfil e dos posts da semana.
+- **Com Apify** (`config.json` → `"apify": true`): rode `LER <handle> <referências de perfil/referencias.md>`.
+- **Sem Apify ou com erro:**
+  - em conversa, peça o print do perfil e dos posts da semana;
+  - na rotina, anote no histórico "faltou número: mandar print" e siga só com a fila.
 
-## 2. Gravar no painel (ArtifactData, `url` = `painel_url`)
+Grave os posts dela em `dados/posts-perfil.json`: lista de `{id, url, formato, legenda, curtidas, comentarios, views, data}`. Mescle com o que já existe pelo `id`, sem duplicar.
 
-1. **`posts`:** um documento por post dela, com o id do post como `doc_id`. Campos: `formato, views, curtidas, comentarios, legenda, data, url`.
-   - Post que já existe: leia e use `if_version`.
-   - Preserve o campo `porque` se já existir.
-2. **`semanas/<AAAA-Www>`** da semana ISO atual. Campos:
-   - `semana`, `seguidores`;
-   - `engajamento`: média de (curtidas + comentários) / seguidores × 100 dos posts dos últimos 7 dias, 1 casa. Se não houve post na semana, use os últimos 6;
-   - `posts`: quantos nos últimos 7 dias;
-   - `referencias`: `[{handle, engajamento}]`, mesmo cálculo;
-   - `leitura`.
-3. **Cruzar a fila com o resultado:** leia `pautas` com `status: publicada`. Ache o post correspondente pela data e pela legenda. Grave na pauta os números do post (`resultado: {views, curtidas, comentarios}`).
-4. **Achar o padrão.** Agrupe os posts publicados por formato de vídeo/carrossel, categoria, tipo de gancho e tema. Some também os posts antigos dela, classificando o formato pela legenda e pelo tipo (Reels/carrossel/foto). Compare cada grupo com a média dela.
-   - **Repetição sem resultado:** 3 ou mais posts seguidos no mesmo formato, gancho ou tema, sem resultado acima da média. Aponte.
-   - **Provado:** um formato ou ângulo com pelo menos 3 posts e média ≥ 1,3× a média dela. Escreva em "o que já está provado" de `meus-agentes/fabricar.md` (ex.: "tela dividida reagindo a notícia: 2,1× a média em 4 posts"). Na rotina automática pode gravar sozinho, porque é dado medido. Avise na `leitura`.
-   - **Sem dado suficiente:** diga quais formatos ainda faltam testar, pro fabricar variar.
+Grave a semana em `dados/semanas.json`: lista. Atualize ou acrescente `{semana: "AAAA-Www", seguidores, engajamento, posts, referencias: [{handle, engajamento}], leitura}`.
+- **Engajamento:** média de (curtidas+comentários)/seguidores×100 dos posts dos últimos 7 dias, 1 casa. Sem post na semana, use os últimos 6.
 
-## 3. A leitura (campo `leitura`, 3 a 6 linhas, português simples)
+## 2. Cruzar Fábrica × resultado
 
-- O que rendeu acima da média dela e o que tem em comum (formato, gancho, ângulo, tema).
-- O que ficou abaixo e por quê, numa frase.
-- Uma linha comparando com as referências: o que elas fazem que está funcionando.
-- **Repetir:** uma coisa concreta.
-- **Parar:** uma coisa concreta.
+1. Para cada ideia `publicada` (`FAB ideias --status publicada`), ache o post pela data e pela legenda.
+2. Grave o resultado na ideia: `FAB alterar <id> '{"resultado":{…}}'`.
+3. Agrupe por formato, categoria/ângulo e tipo de gancho, juntando também as análises de `memoria/videos/`. Compare cada grupo com a média dela.
 
-Se um padrão se repetir por 2 semanas, proponha (quando a pessoa estiver na conversa) ajustar `meus-agentes/fabricar.md` ou `perfil/angulos.md`. Ex.: "bastidor rende 2×: subir de 1 pra 2 por semana".
+## 3. Memória (o que deixa o sistema inteligente)
 
-## Pergunta avulsa: "por que esse post foi bem?"
+- **Provado:** grupo com 3 ou mais posts e média ≥ 1,3× a dela.
+  `FAB memoria o-que-funciona.md "- <data> · <padrão> · <N> posts · <X>× a média"`
+- **Repetição sem resultado:** 3 ou mais seguidos no mesmo formato, gancho ou tema, abaixo da média. Anote também no `o-que-funciona.md`, como "evitar".
+- **Faltando teste:** formatos ainda sem dado entram na `leitura`, pro `produzir` variar.
+- **Leitura da semana** (3 a 6 linhas, português simples, campo `leitura`):
+  - o que rendeu e o que tem em comum;
+  - o que ficou abaixo;
+  - uma linha sobre as referências;
+  - **Repetir:** …
+  - **Parar:** …
+- **Histórico:** `FAB historico "Análise semanal: <1 linha>"`.
 
-Pegue o post em `posts`, compare com a média dela e aplique o método do `instagram-skills:ig-hook-extractor`: qual fórmula de gancho, por que funcionou, e um molde em branco pra repetir.
+## Pergunta avulsa "por que esse post foi bem?"
 
-Grave no campo `porque` do post.
+Se houver análise em `memoria/videos/`, use-a. Se não, assista com `/fabrica:assistir <link>`. Depois aplique a Skill `instagram-skills:ig-hook-extractor`: fórmula, por que funcionou, molde pra repetir.
 
 ## Regras
 
-- Número só de fonte (Apify ou print). Sem número, escreva "sem dado", nunca estime.
-- Alcance e salvamentos reais não vêm da Apify: só por print do painel do Instagram. Não confunda curtida com alcance.
+- Número só de fonte. Sem número, escreva "sem dado".
+- Curtida não é alcance. Alcance e retenção só por print ou pelo painel profissional (versão futura).

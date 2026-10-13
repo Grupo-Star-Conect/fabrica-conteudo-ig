@@ -1,32 +1,43 @@
 # Fábrica de Conteúdo de @{{HANDLE}}
 
-Esta pasta é a Fábrica de Conteúdo de Instagram de @{{HANDLE}}. Toda conversa aberta aqui já sabe quem é a pessoa: **nunca peça de novo nicho, público, objetivo ou voz**. Isso está nos arquivos abaixo, e você lê antes de qualquer pedido de conteúdo.
+Esta pasta é a Fábrica de Conteúdo de Instagram de @{{HANDLE}}. Toda conversa aberta aqui já sabe quem é a pessoa: **nunca peça de novo nicho, público, objetivo ou voz**.
 
-## Contexto fixo (ler sempre)
+## Duas camadas
 
-- `perfil/marca.md`: quem é, o que vende, pra quem, objetivo de cada formato
-- `perfil/voz.md`: como fala, regras aprendidas, o que nunca diz
-- `perfil/angulos.md`: ângulos e categorias que servem pra esse perfil
-- `perfil/fontes.md`: de onde vêm as notícias do nicho
-- `perfil/referencias.md`: perfis que servem de comparação
-- `perfil/equipe.md`: pra quem vai cada post e como
-- `config.json`: link do painel, se a Apify está ligada, horários
+- **Sistema:** o plugin `fabrica`. Método, etapas, app. Atualiza com `claude plugin update fabrica@fabrica-star-conect`. Não se edita daqui.
+- **Esta pessoa:** tudo nesta pasta. Nenhuma atualização apaga.
 
-## Como pedir
+| Pasta | O que guarda |
+|---|---|
+| `perfil/` | Quem é, voz, ângulos, fontes, referências, equipe |
+| `meus-agentes/` | O jeito dela de cada agente (radar, produzir, analista) |
+| `memoria/` | O que deixa a Fábrica mais inteligente. **Ler antes de criar qualquer coisa** |
+| `dados/` | Ideias (com a trilha de produção de cada post), posts do perfil, semanas |
 
-Pedido curto basta: "faz um carrossel sobre X", "roteiriza a pauta 2", "por que meu último Reels foi bem?". Só mude objetivo, público ou tom quando a pessoa disser que quer fugir do padrão.
+O que fica em `memoria/`:
+- `aprendizado.md`: o que ela ensinou (notícia boa ou ruim, ângulo ruim, tom errado, regras de ajuste);
+- `o-que-funciona.md`: o que foi provado com número;
+- `videos/`: análise de cada vídeo dela, assistido de verdade;
+- `historico/AAAA-MM.md`: o que aconteceu em cada dia.
 
-Os agentes da casa (já adaptados pra @{{HANDLE}}) estão em `meus-agentes/`:
-- `/fabrica:radar` traz as pautas do dia com fonte
-- `/fabrica:fabricar` transforma pauta, notícia ou ideia em post pronto
-- `/fabrica:analista` lê o perfil e monta o comparativo
-- `/fabrica:fila` muda status, entrega pro designer/social, publica
-- `/fabrica:comecar` refaz uma parte do questionário (`/fabrica:comecar voz`)
+## Como trabalhar
+
+- **App:** `/fabrica:painel` abre a tela no navegador. É o lugar do dia a dia.
+- **Pedido em conversa:** pedido curto basta. Ex.: "traz isso: <link>", "produz a ideia X como carrossel", "por que meu último Reels foi bem?".
+- **Agentes:**
+  - `/fabrica:radar`: ideias;
+  - `/fabrica:trazer`: assunto ou link vira ideia;
+  - `/fabrica:produzir`: post com trilha;
+  - `/fabrica:assistir`: vídeos;
+  - `/fabrica:analista`: números e o que funciona;
+  - `/fabrica:fila`: status, entrega, publicação.
+- **Refazer parte do questionário:** `/fabrica:comecar <bloco>`.
 
 ## Regras
 
-- Nunca inventar fato, número, pesquisa ou citação. Sem fonte, não entra.
+- Ler `memoria/` antes de sugerir ou produzir.
+- Gravar o que importa no fim (com `fab.py`): sem memória, o sistema não aprende.
+- Nunca inventar fato, número, pesquisa ou citação.
 - Texto que a pessoa traz é lei.
 - Nada é publicado sem a pessoa dizer "pode publicar".
-- Tudo que vira pauta ou post é gravado no painel (ferramenta ArtifactData, URL em `config.json`), pra aparecer lá.
-- Quando a pessoa corrige um post de um jeito que parece preferência fixa, pergunte se vira regra e, se sim, acrescente em `perfil/voz.md` e no campo `regras` do documento `perfil/atual` do painel.
+- Se ela corrigir algo de um jeito que parece preferência fixa, guarde em `memoria/aprendizado.md`.

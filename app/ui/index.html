@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="fabrica-token" content="__TOKEN__">
+<title>Fábrica de Conteúdo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=JetBrains+Mono&display=swap">
+<style>
+/* Mesa de trabalho: lista à esquerda, item aberto à direita. Marca Star Conect (marinho + sky). */
+:root{
+  --bg:#f4f6fa; --surface:#fff; --surface-2:#e9edf3; --line:#d5dbe6;
+  --fg:#1a2547; --fg-2:#3d4658; --muted:#6b7488;
+  --brand:#243263; --brand-ink:#fff; --sky:#2f8fbf; --sky-soft:#dcf0f9;
+  --reels:#5b4bb7; --reels-soft:#ece9fb; --carr:#0f7a6a; --carr-soft:#e0f4ef;
+  --ok:#2f7a3b; --ok-soft:#e3f2e5; --warn:#8a5a00; --warn-soft:#fbefd6; --bad:#a3322d; --bad-soft:#fbe6e4;
+  --f-sans:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --r:10px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1528; --surface:#172040; --surface-2:#1e2a52; --line:#2c3a68; --fg:#eef2fa; --fg-2:#c3cbe0; --muted:#8d97b3;
+  --brand:#4eb5e0; --brand-ink:#0f1528; --sky:#4eb5e0; --sky-soft:#173a52; --reels:#b3a8f5; --reels-soft:#2a2558;
+  --carr:#7fd9c6; --carr-soft:#123d38; --ok:#8fd49a; --ok-soft:#173a20; --warn:#f2c46b; --warn-soft:#3d2e0c; --bad:#f19a95; --bad-soft:#3d1a18; color-scheme:dark}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:14px/1.55 var(--f-sans);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:14px 16px 48px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:10px;align-items:center}.brand svg{width:22px;height:30px}
+.brand b{font-weight:600;font-size:16px}.brand small{display:block;color:var(--muted);font-size:12px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:1;justify-content:flex-end;min-width:280px}
+.acts input{flex:1;min-width:200px;max-width:420px}
+input,textarea{font:inherit;padding:9px 12px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+textarea{width:100%;min-height:64px;resize:vertical}
+.btn{font:inherit;font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.sm{padding:5px 11px;font-size:12px}
+.btn:disabled{opacity:.55;cursor:progress}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,.item:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+nav{display:flex;gap:4px;margin:12px 0 0;flex-wrap:wrap}
+nav button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--fg-2);padding:7px 12px;border-radius:999px;cursor:pointer}
+nav button[aria-selected=true]{background:var(--brand);color:var(--brand-ink);font-weight:500}
+nav .n{font-size:11px;opacity:.75;margin-left:4px}
+.grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.list{display:flex;flex-direction:column;gap:6px}
+.item{all:unset;box-sizing:border-box;display:block;cursor:pointer;padding:11px 12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
+.item[aria-current=true]{border-color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
+.item h3{margin:5px 0 2px;font-size:14px;font-weight:500}
+.meta{color:var(--muted);font-size:12px;display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--fg-2)}
+.chip.reels{background:var(--reels-soft);color:var(--reels)}.chip.carrossel,.chip.post{background:var(--carr-soft);color:var(--carr)}
+.chip.produzindo{background:var(--warn-soft);color:var(--warn)}.chip.pronto,.chip.publicada{background:var(--ok-soft);color:var(--ok)}
+.chip.skill{background:var(--sky-soft);color:var(--sky);font-family:var(--f-mono);font-weight:400}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.panel h2{margin:6px 0 4px;font-size:20px;font-weight:600;letter-spacing:-.015em}
+.sec{margin-top:18px}.sec>.label{display:flex;justify-content:space-between;align-items:center}
+.block{background:var(--surface-2);border-radius:var(--r);padding:12px 14px;white-space:pre-wrap;min-width:0;overflow-wrap:anywhere}
+.slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.slide{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;white-space:pre-wrap}
+.slide b{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-bottom:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.trilha{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.trilha li{position:relative;padding:0 0 12px 16px}
+.trilha li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--ok)}
+.trilha details summary{cursor:pointer;font-weight:500}
+.trilha .out{margin-top:6px;font-size:13px}
+.log{font-family:var(--f-mono);font-size:12px;background:var(--surface-2);border-radius:var(--r);padding:10px 12px;max-height:260px;overflow:auto}
+.log div{padding:2px 0}.log .skill{color:var(--sky)}.log .fim{color:var(--ok);white-space:pre-wrap;font-family:var(--f-sans)}.log .erro{color:var(--bad)}
+.msg{max-width:88%;padding:8px 12px;border-radius:12px;font-size:13px;white-space:pre-wrap;margin:6px 0}
+.msg.u{margin-left:auto;background:var(--brand);color:var(--brand-ink)}.msg.a{background:var(--surface-2)}
+.empty{padding:28px 18px;text-align:center;color:var(--fg-2)}
+.hint{color:var(--muted);font-size:12px;margin:6px 0 0}
+.fb .btn.on{background:var(--sky-soft);border-color:var(--sky)}
+.toast{position:sticky;top:8px;z-index:5;margin-top:10px;padding:10px 12px;border-radius:var(--r);background:var(--bad-soft);color:var(--bad);font-size:13px}
+.mem{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg viewBox="760.3 155.5 399.7 543.6" aria-hidden="true"><path fill="var(--brand)" d="M 1044.97 538.52 L 960.18 477.13 L 875.39 538.52 L 907.58 438.91 L 823 377.25 L 927.67 377.07 L 960.18 277.57 L 992.69 377.07 L 1097.37 377.25 L 1012.78 438.91 Z M 1151.57 399.33 C 1142.71 335.43 1088.08 287.86 1023.57 287.86 L 992.8 287.86 L 992.8 169.13 C 992.8 161.36 983.42 157.46 977.91 162.93 L 811.59 328.25 C 778.16 361.47 762.31 408.48 768.79 455.16 C 777.66 519.05 832.29 566.62 896.8 566.62 L 927.56 566.62 L 927.56 685.36 C 927.56 693.13 936.95 697.03 942.46 691.55 L 1108.78 526.23 C 1142.2 493.01 1158.05 446.01 1151.57 399.33"/></svg>
+      <div><b>Fábrica de Conteúdo</b><small id="who">carregando…</small></div>
+    </div>
+    <form class="acts" id="trazerForm">
+      <input id="trazerIn" placeholder="Trazer assunto: tema, link de notícia ou link de post" aria-label="Trazer assunto">
+      <button class="btn" id="trazerBtn">Trazer</button>
+      <button class="btn primary" type="button" id="radarBtn">Buscar ideias agora</button>
+    </form>
+  </header>
+  <div id="toast" class="toast" hidden></div>
+  <nav role="tablist" id="tabs"></nav>
+  <main id="view"></main>
+</div>
+<script>
+const TOKEN=document.querySelector('meta[name=fabrica-token]').content;
+const S={tab:"ideias",sel:null,estado:null,jobs:{},fbTipo:{}};
+const $=(q,el=document)=>el.querySelector(q);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const TABS=[["ideias","Ideias"],["posts","Posts"],["videos","Meus vídeos"],["memoria","Memória"],["perfil","Perfil"]];
+const ST_TXT={ideia:"Ideia",produzindo:"Produzindo",pronto:"Pronto",escolhida:"Vou fazer",gravada:"Gravado",designer:"Com designer/social",publicada:"Publicado",descartada:"Descartado"};
+const NEXT={pronto:["escolhida","Vou fazer esse"],escolhida:["gravada","Marcar gravado"],gravada:["designer","Mandei pro designer/social"],designer:["publicada","Marcar publicado"]};
+
+async function api(path,body){
+  const r=await fetch(path,{method:body?"POST":"GET",headers:{"X-Fabrica":TOKEN,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({erro:"resposta inválida"}));
+  if(!r.ok) throw new Error(j.erro||"falhou");
+  return j;
+}
+function toast(t){const el=$("#toast");el.textContent=t||"";el.hidden=!t;if(t)setTimeout(()=>{if(el.textContent===t)el.hidden=true},7000)}
+function copiar(txt,btn){navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent="Copiado";setTimeout(()=>btn.textContent=o,1500)},()=>toast("Não deu pra copiar. Selecione o texto."))}
+
+async function carregar(){
+  try{S.estado=await api("/api/estado");}catch(e){toast("Perdi a conexão com a Fábrica. Ela ainda está aberta no terminal?");return}
+  for(const j of S.estado.jobs||[]) if(!S.jobs[j.id]) acompanhar(j);
+  render();
+}
+
+function ideias(){return S.estado?.ideias||[]}
+function tipoChip(t){if(!t)return"";const n={reels:"Reels",carrossel:"Carrossel",post:"Post fixo"}[t]||t;return `<span class="chip ${esc(t)}">${esc(n)}</span>`}
+function jobDaIdeia(id){return Object.values(S.jobs).find(j=>j.ideia===id&&j.status==="rodando")}
+
+function render(){
+  const e=S.estado; if(!e) return;
+  $("#who").textContent="@"+(e.config.handle||"?")+" · "+(e.ideias.filter(i=>i.status==="ideia").length)+" ideias abertas";
+  const cont={ideias:e.ideias.filter(i=>["ideia","produzindo"].includes(i.status)).length,posts:e.ideias.filter(i=>!["ideia","produzindo","descartada"].includes(i.status)).length,videos:e.videos.length};
+  $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" data-tab="${k}" aria-selected="${S.tab===k}">${n}${cont[k]!=null?`<span class="n">${cont[k]}</span>`:""}</button>`).join("");
+  const radarJob=Object.values(S.jobs).find(j=>j.acao==="radar"&&j.status==="rodando");
+  $("#radarBtn").disabled=!!radarJob; $("#radarBtn").textContent=radarJob?"Buscando ideias…":"Buscar ideias agora";
+  ({ideias:()=>vLista(["ideia","produzindo"],"Nenhuma ideia aberta. Clique em Buscar ideias agora ou traga um assunto."),posts:()=>vLista(["pronto","escolhida","gravada","designer","publicada"],"Nenhum post produzido ainda. Abra uma ideia e clique em Produzir."),videos:vVideos,memoria:vMemoria,perfil:vPerfil})[S.tab]();
+}
+
+function vLista(sts,vazio){
+  const L=ideias().filter(i=>sts.includes(i.status));
+  if(!S.sel||!L.find(i=>i.id===S.sel)) S.sel=L[0]?.id||null;
+  const sel=L.find(i=>i.id===S.sel);
+  const globais=Object.values(S.jobs).filter(j=>!j.ideia&&(j.status==="rodando"||Date.now()-j.visto<60000));
+  $("#view").innerHTML=`${globais.map(jobBox).join("")}<div class="grid"><section><p class="label">${L.length} ${S.tab==="ideias"?"ideias":"posts"}</p><div class="list">${L.map(i=>`<button class="item" data-sel="${esc(i.id)}" aria-current="${i.id===S.sel}">
+    <div class="row">${tipoChip(i.tipo||i.tipo_sugerido)}<span class="chip ${esc(i.status)}">${esc(ST_TXT[i.status]||i.status)}</span></div>
+    <h3>${esc(i.titulo)}</h3><div class="meta">${i.fonte?.nome?`<span>${esc(i.fonte.nome)}</span>`:""}<span>${esc(i.data)}</span>${i.origem&&i.origem!=="radar"?`<span>trazido por você</span>`:""}</div></button>`).join("")||`<div class="panel empty">${vazio}</div>`}</div></section>
+    <section class="panel">${sel?detalhe(sel):`<div class="empty">Escolha um item à esquerda.</div>`}</section></div>`;
+}
+
+function jobBox(j){
+  const titulo={radar:"Buscando ideias",trazer:"Trazendo o assunto",analista:"Lendo o perfil",assistir:"Assistindo aos vídeos",produzir:"Produzindo",ajustar:"Ajustando",entregar:"Montando a entrega"}[j.acao]||j.acao;
+  return `<div class="panel" style="margin-top:12px"><p class="label">${esc(titulo)} · ${j.status==="rodando"?`${j.segundos}s`:j.status==="ok"?"pronto":"deu erro"}</p><div class="log" data-log="${j.id}">${(j.eventos||[]).map(ev=>`<div class="${esc(ev.tipo)}">${esc(ev.texto)}</div>`).join("")}${j.erro?`<div class="erro">${esc(j.erro)}</div>`:""}</div></div>`;
+}
+
+function detalhe(i){
+  const job=jobDaIdeia(i.id);
+  const fb=(i.feedback||[]).map(f=>S.estado.feedback_tipos[f.tipo]).filter(Boolean);
+  let h=`<div class="row">${tipoChip(i.tipo||i.tipo_sugerido)}<span class="chip ${esc(i.status)}">${esc(ST_TXT[i.status])}</span></div>
+  <h2>${esc(i.titulo)}</h2>
+  <div class="meta">${i.fonte?.url?`<a href="${esc(i.fonte.url)}" target="_blank" rel="noopener" style="color:var(--sky)">Fonte: ${esc(i.fonte.nome||i.fonte.url)}</a>`:"<span>Sem fonte (opinião, bastidor ou educação)</span>"}${i.angulo?`<span>Ângulo: ${esc(i.angulo)}</span>`:""}</div>
+  ${i.por_que?`<div class="sec"><p class="label">Por que serve pra você</p><div class="block">${esc(i.por_que)}</div></div>`:""}
+  ${i.resumo_fonte?`<div class="sec"><p class="label">O que a fonte diz</p><div class="block">${esc(i.resumo_fonte)}</div></div>`:""}`;
+
+  h+=`<div class="sec fb"><p class="label">Ensinar a Fábrica ${fb.length?`<span>já marcado: ${esc(fb.join(", "))}</span>`:""}</p>
+    <div class="row">${["noticia_boa","noticia_ruim","angulo_ruim","tom_errado"].concat(i.post?["gostei_post"]:[]).map(t=>`<button class="btn sm ${S.fbTipo[i.id]===t?"on":""}" data-fbtipo="${t}">${esc(S.estado.feedback_tipos[t])}</button>`).join("")}</div>
+    ${S.fbTipo[i.id]?`<div class="row" style="margin-top:8px"><input id="fbTxt" style="flex:1" placeholder="Por quê? (opcional, mas é o que mais ensina)"><button class="btn primary sm" data-fbsalvar="${esc(i.id)}">Salvar</button></div>`:""}
+    <p class="hint">Vai pra memória e muda as próximas buscas e produções.</p></div>`;
+
+  if(job) h+=`<div class="sec">${jobBox(job)}</div>`;
+
+  if(!i.post&&i.status!=="produzindo"){
+    h+=`<div class="sec"><p class="label">Produzir</p><div class="row">${[["decida","A Fábrica decide o formato"],["reels","Reels"],["carrossel","Carrossel"],["post","Post fixo"]].map(([f,n],k)=>`<button class="btn ${k?"":"primary"}" data-produzir="${f}" ${job?"disabled":""}>${n}</button>`).join("")}</div>
+    <p class="hint">Passa por todas as etapas e mostra cada uma: fonte, ângulo, texto, legenda, hashtags, revisão anti-IA e briefing.</p></div>`;
+  }
+
+  if(i.trilha?.length){
+    h+=`<div class="sec"><p class="label">Trilha de produção · ${i.trilha.length} etapas</p><ol class="trilha">${i.trilha.map(t=>`<li><details><summary>${esc(t.etapa)} ${t.skill?`<span class="chip skill">${esc(t.skill)}</span>`:""}</summary><div class="block out">${esc(t.saida)}</div></details></li>`).join("")}</ol></div>`;
+  }
+
+  const p=i.post;
+  if(p){
+    if(p.formato_motivo) h+=`<div class="sec"><p class="label">Formato</p><div class="block">${esc(p.formato_motivo)}</div></div>`;
+    if(p.roteiro) h+=sec("Roteiro falado",`<div class="block">${esc(p.roteiro)}</div>`,p.roteiro);
+    if(p.slides?.length) h+=sec(`Slides · ${p.slides.length}`,`<div class="slides">${p.slides.map((s,k)=>`<div class="slide"><b>${k+1}</b>${esc(s)}</div>`).join("")}</div>`,p.slides.map((s,k)=>`Slide ${k+1}\n${s}`).join("\n\n"));
+    if(p.texto_arte) h+=sec("Texto da arte",`<div class="block">${esc(p.texto_arte)}</div>`,p.texto_arte);
+    if(p.legenda) h+=sec("Legenda",`<div class="block">${esc(p.legenda)}</div>`,p.legenda);
+    if(p.hashtags?.length) h+=sec("Hashtags",`<div class="block" style="font-family:var(--f-mono);font-size:12px">${esc(p.hashtags.join(" "))}</div>`,p.hashtags.join(" "));
+  }
+  if(i.briefing) h+=sec("Briefing pro designer",`<div class="block">${esc(typeof i.briefing==="string"?i.briefing:JSON.stringify(i.briefing,null,1))}</div>`,typeof i.briefing==="string"?i.briefing:JSON.stringify(i.briefing,null,1));
+
+  if(p||i.conversa?.length){
+    h+=`<div class="sec"><p class="label">Ajustar conversando</p>${(i.conversa||[]).map(m=>`<div class="msg ${m.role==="user"?"u":"a"}">${esc(m.content)}</div>`).join("")}
+    <form class="row" data-ajustar="${esc(i.id)}"><input id="ajIn" style="flex:1" placeholder="Ex.: troca o gancho, deixa mais curto, muda pra carrossel" ${job?"disabled":""}><button class="btn primary" ${job?"disabled":""}>Enviar</button></form>
+    <p class="hint">Seu perfil, voz e memória já vão junto. O ajuste passa pelas mesmas etapas e aparece na trilha.</p></div>`;
+  }
+
+  h+=`<div class="sec row">${NEXT[i.status]?`<button class="btn primary" data-status="${NEXT[i.status][0]}">${NEXT[i.status][1]}</button>`:""}
+    ${p?`<button class="btn" data-entregar="1" ${job?"disabled":""}>Montar pacote de entrega</button>`:""}
+    ${i.status!=="descartada"&&i.status!=="publicada"?`<button class="btn" data-status="descartada">Descartar</button>`:""}</div>`;
+  return h;
+}
+function sec(t,html,copia){S._copias=S._copias||[];S._copias.push(copia);return `<div class="sec"><p class="label"><span>${esc(t)}</span><button class="btn sm" data-copiar="${S._copias.length-1}">Copiar</button></p>${html}</div>`}
+
+function vVideos(){
+  const V=S.estado.videos, job=Object.values(S.jobs).find(j=>j.acao==="assistir"&&(j.status==="rodando"||Date.now()-j.visto<60000));
+  $("#view").innerHTML=`<div class="panel" style="margin-top:14px"><div class="row" style="justify-content:space-between"><div><p class="label">Seus vídeos, assistidos de verdade</p><p class="hint" style="margin:0">Baixa, transcreve e olha os cortes. Fica só a análise em texto; o vídeo é apagado.</p></div>
+  <button class="btn primary" id="assistirBtn" ${job?.status==="rodando"?"disabled":""}>Assistir aos vídeos novos</button></div></div>
+  ${job?jobBox(job):""}
+  <div class="mem">${V.map(v=>`<div class="panel"><p class="label">${esc(v.arquivo.replace(/\.md$/,""))}</p><div class="block" style="max-height:420px;overflow:auto">${esc(v.texto)}</div></div>`).join("")||`<div class="panel empty">Nenhum vídeo analisado ainda.</div>`}</div>`;
+}
+function vMemoria(){
+  const m=S.estado.memoria;
+  $("#view").innerHTML=`<p class="hint" style="margin-top:14px">É aqui que a Fábrica fica mais inteligente: tudo que você ensina e tudo que dá resultado vira regra pras próximas ideias e posts.</p><div class="mem">
+  <div class="panel"><p class="label">O que funciona (medido)</p><div class="block">${esc(m.o_que_funciona||"Ainda sem dado suficiente. O analista preenche quando um formato ou ângulo render acima da sua média em 3 posts ou mais.")}</div></div>
+  <div class="panel"><p class="label">O que você ensinou</p><div class="block">${esc(m.aprendizado||"Nada ainda. Use os botões de Ensinar a Fábrica nas ideias.")}</div></div>
+  <div class="panel" style="grid-column:1/-1"><p class="label">Histórico do mês</p><div class="block" style="max-height:420px;overflow:auto">${esc(m.historico||"Vazio.")}</div></div></div>
+  <div class="panel" style="margin-top:14px"><div class="row" style="justify-content:space-between"><p class="label" style="margin:0">Leitura do perfil e das referências</p><button class="btn" id="analistaBtn">Rodar análise agora</button></div></div>`;
+}
+function vPerfil(){
+  $("#view").innerHTML=`<div class="mem"><div class="panel"><p class="label">Quem você é (perfil/marca.md)</p><div class="block">${esc(S.estado.marca||"—")}</div></div>
+  <div class="panel"><p class="label">Como você fala (perfil/voz.md)</p><div class="block">${esc(S.estado.voz||"—")}</div></div></div>
+  <p class="hint">Pra mudar, no Claude dentro da pasta: /fabrica:comecar voz, /fabrica:comecar fontes, /fabrica:comecar angulos…</p>`;
+}
+
+async function rodar(corpo){
+  try{const j=await api("/api/rodar",corpo);acompanhar(j);render();}catch(e){toast(e.message)}
+}
+function acompanhar(j){
+  j.visto=Date.now(); S.jobs[j.id]=j;
+  const tick=async()=>{
+    let r; try{r=await api(`/api/job/${j.id}/${j.eventos.length}`)}catch{return setTimeout(tick,3000)}
+    j.eventos.push(...r.eventos); Object.assign(j,{status:r.status,erro:r.erro,segundos:r.segundos}); j.visto=Date.now();
+    const box=document.querySelector(`[data-log="${j.id}"]`);
+    if(box&&r.eventos.length){box.insertAdjacentHTML("beforeend",r.eventos.map(ev=>`<div class="${esc(ev.tipo)}">${esc(ev.texto)}</div>`).join(""));box.scrollTop=box.scrollHeight}
+    if(j.status==="rodando") setTimeout(tick,1300); else { if(j.erro) toast("Deu erro: "+j.erro.slice(0,200)); carregar(); }
+  };
+  setTimeout(tick,800);
+}
+
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button,[data-sel]"); if(!b) return;
+  const d=b.dataset, sel=S.sel;
+  if(d.tab){S.tab=d.tab;S.sel=null;render();return}
+  if(d.sel){S.sel=d.sel;render();return}
+  if(b.id==="radarBtn"){rodar({acao:"radar"});return}
+  if(b.id==="assistirBtn"){rodar({acao:"assistir"});return}
+  if(b.id==="analistaBtn"){S.tab="memoria";rodar({acao:"analista"});return}
+  if(d.copiar!=null){copiar(S._copias[+d.copiar],b);return}
+  if(d.fbtipo){S.fbTipo[sel]=S.fbTipo[sel]===d.fbtipo?null:d.fbtipo;render();setTimeout(()=>$("#fbTxt")?.focus(),0);return}
+  if(d.fbsalvar){try{await api("/api/feedback",{id:d.fbsalvar,tipo:S.fbTipo[d.fbsalvar],texto:$("#fbTxt")?.value||""});S.fbTipo[d.fbsalvar]=null;toast("");await carregar()}catch(er){toast(er.message)}return}
+  if(d.produzir){rodar({acao:"produzir",id:sel,formato:d.produzir});return}
+  if(d.entregar){rodar({acao:"entregar",id:sel});return}
+  if(d.status){try{await api("/api/status",{id:sel,status:d.status});await carregar()}catch(er){toast(er.message)}return}
+});
+document.addEventListener("submit",e=>{
+  e.preventDefault();
+  if(e.target.id==="trazerForm"){const v=$("#trazerIn").value.trim();if(!v){toast("Escreva o assunto ou cole um link.");return}$("#trazerIn").value="";S.tab="ideias";rodar({acao:"trazer",texto:v});return}
+  if(e.target.dataset.ajustar){const v=$("#ajIn").value.trim();if(!v)return;rodar({acao:"ajustar",id:e.target.dataset.ajustar,texto:v});}
+});
+const _render=render; render=function(){S._copias=[];_render()};
+carregar(); setInterval(()=>{if(!Object.values(S.jobs).some(j=>j.status==="rodando")&&document.visibilityState==="visible")carregar()},8000);
+</script>
+</body>
+</html>

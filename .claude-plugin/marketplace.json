@@ -12,7 +12,7 @@
       "name": "fabrica",
       "source": "./",
       "description": "Questionário que adapta os agentes ao seu perfil, pautas diárias com fonte oficial, posts na sua voz e painel de trabalho.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "category": "productivity"
     }
   ]
