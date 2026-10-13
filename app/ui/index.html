@@ -201,7 +201,8 @@ function vVideos(){
   $("#view").innerHTML=`<div class="panel" style="margin-top:14px"><div class="row" style="justify-content:space-between"><div><p class="label">Seus vídeos, assistidos de verdade</p><p class="hint" style="margin:0">Baixa, transcreve e olha os cortes. Fica só a análise em texto; o vídeo é apagado.</p></div>
   <button class="btn primary" id="assistirBtn" ${job?.status==="rodando"?"disabled":""}>Assistir aos vídeos novos</button></div></div>
   ${job?jobBox(job):""}
-  <div class="mem">${V.map(v=>`<div class="panel"><p class="label">${esc(v.arquivo.replace(/\.md$/,""))}</p><div class="block" style="max-height:420px;overflow:auto">${esc(v.texto)}</div></div>`).join("")||`<div class="panel empty">Nenhum vídeo analisado ainda.</div>`}</div>`;
+  <div class="mem">${V.map(v=>`<div class="panel"><p class="label">${esc(v.arquivo.replace(/\.md$/,""))}</p><div class="block" style="max-height:420px;overflow:auto">${esc(v.texto)}</div></div>`).join("")||`<div class="panel empty">Nenhum vídeo analisado ainda.</div>`}</div>
+  ${(S.estado.referencias||[]).length?`<p class="label" style="margin-top:22px">Perfis de referência, assistidos</p><div class="mem">${S.estado.referencias.map(v=>`<div class="panel"><p class="label">@${esc(v.arquivo.replace(/\.md$/,""))}</p><div class="block" style="max-height:420px;overflow:auto">${esc(v.texto)}</div></div>`).join("")}</div>`:""}`;
 }
 function vMemoria(){
   const m=S.estado.memoria;

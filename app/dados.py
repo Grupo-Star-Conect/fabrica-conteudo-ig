@@ -179,8 +179,15 @@ class Pasta:
             for nome in sorted(os.listdir(vdir), reverse=True):
                 if nome.endswith(".md"):
                     videos.append({"arquivo": nome, "texto": self.ler("memoria", "videos", nome)})
+        refs = []
+        rdir = self.p("memoria", "referencias")
+        if os.path.isdir(rdir):
+            for nome in sorted(os.listdir(rdir)):
+                if nome.endswith(".md"):
+                    refs.append({"arquivo": nome, "texto": self.ler("memoria", "referencias", nome)})
         mes = hoje()[:7]
         return {
+            "referencias": refs,
             "config": {k: v for k, v in cfg.items() if "token" not in k.lower() and "key" not in k.lower()},
             "marca": self.ler("perfil", "marca.md"),
             "voz": self.ler("perfil", "voz.md"),

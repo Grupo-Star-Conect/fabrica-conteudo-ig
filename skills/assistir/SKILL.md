@@ -13,6 +13,8 @@ description: Assiste de verdade aos vídeos do próprio perfil da pessoa (frames
 - **Não vieram:** pegue os Reels de `dados/posts-perfil.json` (lidos pela Apify), do mais recente pro mais antigo, que ainda **não** tenham `memoria/videos/<id>.md`. Até 8 por rodada.
 - **Sem `posts-perfil.json`:** peça os links (se for conversa). Na rotina automática, anote no histórico que faltam links e pare.
 
+**Referências** (`referencias` no argumento, ou no `comecar`): leia com `ler_perfil.py` e assista aos 3 Reels de maior resultado de cada perfil. Grave em `memoria/referencias/<handle>.md` com o mesmo modelo, mais uma seção final **"O que dá pra trazer pro perfil dela"**: a mecânica, nunca o texto.
+
 ## Para cada vídeo
 
 1. **Assistir.** Chame a Skill `watch:watch`:

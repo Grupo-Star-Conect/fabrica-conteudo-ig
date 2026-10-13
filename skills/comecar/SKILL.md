@@ -87,6 +87,22 @@ Com o que leu, escreva **o que entendeu** e peça confirmação:
 
 Pergunte o que ajustar.
 
+## Passo 1b. O que você já fez
+
+Pergunte se ela já tem roteiros, legendas, posts planejados, textos ou materiais que já usa. Ela pode:
+- colar aqui;
+- dizer o caminho de uma pasta no computador;
+- mandar o link de uma pasta do Drive ou de um documento.
+
+Leia tudo. Copie em texto pra `memoria/roteiros/` (um `.md` por material, com a origem no topo). Não copie mídia.
+
+Isso serve a três coisas:
+- a voz real dela (Passo 2);
+- ideias que ela já teve, que viram ideias na Fábrica (`FAB ideia-nova` com `"origem":"já feito"` e `"texto_proprio": true` quando for roteiro pronto);
+- o que **não** repetir.
+
+Se ela não tiver nada, siga.
+
 ## Passo 2. Voz
 
 A voz sai do que ela já escreveu, não de adjetivo.
@@ -132,7 +148,11 @@ Peça autorização em uma frase: "Posso usar o login do Instagram que está no 
 - Se sim, grave `"chrome_autorizado": true` no `config.json`.
 - Se não, só vídeos públicos.
 
-Rode o agente `/fabrica:assistir` com os 6 Reels mais recentes (ou os links que ela der). Antes de usar a primeira vez, rode o setup do `watch` com motor local e transcrição local (`--engine local`, `--backend whisperx`). Avise que a primeira vez baixa o modelo de transcrição e demora uns minutos.
+Rode o agente `/fabrica:assistir` com:
+- **os vídeos dela que deram certo:** os Reels de `dados/posts-perfil.json`, ordenados por views (ou curtidas). Pegue os 8 melhores, mais os 2 piores pra comparar;
+- **os perfis de referência:** os 3 Reels de maior resultado de cada perfil de `perfil/referencias.md`. Leia com `ler_perfil.py` e grave a análise em `memoria/referencias/<handle>.md`.
+
+Sem Apify, use os links que ela der. Avise que isso leva alguns minutos e que ela pode seguir respondendo as próximas perguntas enquanto isso. Antes de usar a primeira vez, rode o setup do `watch` com motor local e transcrição local (`--engine local`, `--backend whisperx`). Avise que a primeira vez baixa o modelo de transcrição e demora uns minutos.
 
 Use o que viu pra **confirmar a voz** (Passo 2) com base no que ela fala de verdade, e pra começar `memoria/o-que-funciona.md`, só com o que tiver número.
 

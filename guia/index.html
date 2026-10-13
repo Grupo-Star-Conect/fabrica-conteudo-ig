@@ -1,0 +1,481 @@
+<title>Guia da Fábrica de Conteúdo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Guia editorial de instalação e uso: trilho de índice à esquerda, seções numeradas (ordem real de uso), comandos copiáveis. Marca Star Conect. */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --surface-2:#e9edf3; --line:#d3dae6;
+  --ink:#1a2547; --ink-2:#3d4658; --muted:#68728a;
+  --navy:#1a2547; --navy-2:#243263; --sky:#2a86b8; --sky-soft:#dcf0f9; --sky-line:#9fd3ec;
+  --code-bg:#141d39; --code-ink:#e6edf9; --code-dim:#8fa0c4;
+  --ok:#2f7a3b; --ok-soft:#e3f2e5; --warn:#8a5a00; --warn-soft:#fbefd6;
+  --f:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1426; --surface:#151d38; --surface-2:#1c2648; --line:#2b3866; --ink:#eef2fa; --ink-2:#c4cce0; --muted:#8e98b5;
+  --navy:#0a1020; --navy-2:#1a2547; --sky:#4eb5e0; --sky-soft:#16354d; --sky-line:#2d6f93;
+  --code-bg:#0a1020; --code-ink:#e6edf9; --code-dim:#7f8fb3; --ok:#8fd49a; --ok-soft:#173a20; --warn:#f2c46b; --warn-soft:#3d2e0c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1426; --surface:#151d38; --surface-2:#1c2648; --line:#2b3866; --ink:#eef2fa; --ink-2:#c4cce0; --muted:#8e98b5;
+  --navy:#0a1020; --navy-2:#1a2547; --sky:#4eb5e0; --sky-soft:#16354d; --sky-line:#2d6f93;
+  --code-bg:#0a1020; --code-ink:#e6edf9; --code-dim:#7f8fb3; --ok:#8fd49a; --ok-soft:#173a20; --warn:#f2c46b; --warn-soft:#3d2e0c; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--f)}
+a{color:var(--sky)}
+.hero{background:var(--navy);color:#eef2fa;padding-inline:16px;padding-block:48px 56px}
+.hero-in{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center}
+@media (max-width:860px){.hero-in{grid-template-columns:minmax(0,1fr)}}
+.sig{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:#bfe5f5;margin-bottom:28px}
+.sig svg{width:20px;height:27px}
+.hero h1{font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.04;letter-spacing:-.03em;font-weight:700;margin:0 0 18px;text-wrap:balance;max-width:15ch}
+.hero h1 em{font-style:normal;color:#4eb5e0}
+.lead{font-weight:300;font-size:clamp(17px,1.6vw,1.2rem);line-height:1.65;color:rgba(238,242,250,.85);max-width:46ch;margin:0 0 26px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:999px;font:600 15px var(--f);text-decoration:none;border:1px solid transparent;cursor:pointer}
+.pill.pri{background:#fff;color:#243263}.pill.pri:hover{background:#bfe5f5}
+.pill.sec{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}.pill.sec:hover{border-color:#fff}
+.stage{background:#0a1020;border:1px solid #2b3866;border-radius:16px;padding:18px;font-family:var(--mono);font-size:13px;color:#c9d4ee;min-width:0}
+.stage .bar{display:flex;gap:6px;margin-bottom:14px}.stage .bar i{width:10px;height:10px;border-radius:50%;background:#2b3866;display:block}
+.stage .l{white-space:pre-wrap;overflow-wrap:anywhere;margin:3px 0}
+.stage .p{color:#4eb5e0}.stage .k{color:#8fd49a}.stage .d{color:#7f8fb3}
+.nums{max-width:1120px;margin:34px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.12);border-radius:14px;overflow:hidden}
+@media (max-width:700px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.nums div{background:var(--navy-2);padding:16px 18px}
+.nums b{display:block;font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#fff}
+.nums span{font-size:13px;color:rgba(238,242,250,.7)}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:20px;align-self:start;padding-top:56px}
+.toc a{display:flex;gap:10px;padding:6px 0;font-size:13px;color:var(--muted);text-decoration:none}
+.toc a b{font-family:var(--mono);font-weight:400;font-size:12px;width:22px}
+.toc a.on{color:var(--ink);font-weight:500}.toc a.on b{color:var(--sky)}
+main{min-width:0;padding-block:24px 80px}
+section{padding-top:56px;scroll-margin-top:12px}
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--sky);letter-spacing:.06em;margin:0 0 6px}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0 0 10px;text-wrap:balance;max-width:22ch}
+.sub{color:var(--ink-2);font-weight:300;font-size:1.08rem;max-width:58ch;margin:0 0 26px}
+h3{font-size:1.15rem;font-weight:600;letter-spacing:-.01em;margin:0 0 6px}
+p{max-width:64ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.card p{margin:4px 0 0;color:var(--ink-2);font-size:15px}
+.card .tag{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;counter-reset:f}
+@media (max-width:820px){.flow{grid-template-columns:minmax(0,1fr)}}
+.flow div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:14px;color:var(--ink-2);position:relative}
+.flow div b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.flow div::before{counter-increment:f;content:counter(f);font-family:var(--mono);font-size:11px;color:var(--sky);display:block;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:500}
+.tabs{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px;margin-bottom:18px}
+.tabs button{font:500 14px var(--f);border:0;background:transparent;color:var(--ink-2);padding:8px 18px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,29,59,.15)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps>li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px 18px 62px;position:relative;min-width:0}
+.steps>li::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--sky-soft);color:var(--sky);font:600 14px var(--f);display:grid;place-items:center}
+.steps p{margin:4px 0 0;color:var(--ink-2);font-size:15px}
+.see{font-size:14px;color:var(--ok);background:var(--ok-soft);border-radius:8px;padding:7px 10px;margin-top:10px}
+.warn{font-size:14px;color:var(--warn);background:var(--warn-soft);border-radius:10px;padding:10px 12px;margin-top:10px}
+.cmd{display:flex;align-items:stretch;background:var(--code-bg);border-radius:10px;margin-top:10px;overflow:hidden;min-width:0}
+.cmd code{flex:1;min-width:0;font-family:var(--mono);font-size:13px;color:var(--code-ink);padding:11px 14px;overflow-x:auto;white-space:pre}
+.cmd code .d{color:var(--code-dim)}
+.cmd button{font:500 12px var(--f);border:0;border-left:1px solid #2b3866;background:transparent;color:#bfe5f5;padding:0 14px;cursor:pointer;white-space:nowrap}
+.cmd button:hover{background:#1a2547}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.q{border-top:1px solid var(--line);padding:16px 0}
+.q h3{display:flex;gap:10px}.q h3 span{font-family:var(--mono);font-size:12px;color:var(--sky);padding-top:4px}
+.q .why{color:var(--ink-2);font-size:15px;margin:2px 0 8px}
+.ab{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.ab div{border-radius:10px;padding:10px 12px;font-size:14px}
+.ab .good{background:var(--ok-soft);color:var(--ink)}.ab .bad{background:var(--surface-2);color:var(--ink-2)}
+.ab b{display:block;font-size:12px;font-weight:500;margin-bottom:2px}
+.ab .good b{color:var(--ok)}
+.app{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.app .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.app .body{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:12px;padding:14px}
+@media (max-width:720px){.app .body{grid-template-columns:minmax(0,1fr)}}
+.mini{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:8px}
+.mini.on{border-color:var(--navy-2);box-shadow:inset 3px 0 0 var(--sky)}
+.chip{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);margin:0 4px 4px 0}
+.chip.s{background:var(--sky-soft);color:var(--sky);font-family:var(--mono);font-weight:400}
+.trail{list-style:none;margin:8px 0 0;padding:0 0 0 14px;border-left:2px solid var(--line);font-size:13px}
+.trail li{padding:3px 0 3px 8px;position:relative}
+.trail li::before{content:"";position:absolute;left:-20px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--ok)}
+.check{display:grid;gap:8px}
+.check label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;font-size:15px}
+.check input{width:18px;height:18px;margin-top:3px;accent-color:var(--sky);flex:none}
+.check .sec{font-size:11px;font-weight:600;color:var(--warn);margin-left:6px}
+.meter{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.meter b{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.meter .track{flex:1;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.meter .track i{display:block;height:100%;background:var(--sky);width:0;transition:width .3s}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+summary{cursor:pointer;padding:14px 16px;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--sky);font-weight:400;font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details>div{padding:0 16px 16px;color:var(--ink-2);font-size:15px}
+.builder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+@media (max-width:820px){.builder{grid-template-columns:minmax(0,1fr)}}
+.builder .in{padding:18px 20px;border-right:1px solid var(--line);display:grid;gap:14px;align-content:start}
+.builder label{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.04em;display:block;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:500 13px var(--f);border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:7px 12px;border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--navy-2);border-color:var(--navy-2);color:#fff}
+.builder input{width:100%;font:15px var(--f);padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.builder .out{padding:18px 20px;background:var(--code-bg);color:var(--code-ink);display:flex;flex-direction:column;gap:12px;min-width:0}
+.builder .out pre{margin:0;font-family:var(--mono);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;flex:1}
+.builder .out .meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--code-dim)}
+.builder .out button{font:600 13px var(--f);background:#fff;color:#243263;border:0;border-radius:999px;padding:8px 16px;cursor:pointer}
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:14px}
+.compare div{border:1px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--ink-2)}
+.compare code{font-family:var(--mono);font-size:12px;display:block;margin-top:6px;color:var(--ink);white-space:pre-wrap}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:28px 16px 48px;color:var(--muted);font-size:14px}
+footer .in{max-width:1120px;margin:0 auto}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy-2);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+</style>
+
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="sig"><svg viewBox="760.3 155.5 399.7 543.6" aria-hidden="true"><path fill="#4eb5e0" d="M1044.97 538.52 960.18 477.13 875.39 538.52 907.58 438.91 823 377.25 927.67 377.07 960.18 277.57 992.69 377.07 1097.37 377.25 1012.78 438.91ZM1151.57 399.33C1142.71 335.43 1088.08 287.86 1023.57 287.86H992.8V169.13C992.8 161.36 983.42 157.46 977.91 162.93L811.59 328.25C778.16 361.47 762.31 408.48 768.79 455.16 777.66 519.05 832.29 566.62 896.8 566.62H927.56V685.36C927.56 693.13 936.95 697.03 942.46 691.55L1108.78 526.23C1142.2 493.01 1158.05 446.01 1151.57 399.33"/></svg>Star Conect · guia da Fábrica de Conteúdo</div>
+      <h1>Uma fábrica de posts que <em>já sabe quem você é</em></h1>
+      <p class="lead">Você responde um questionário uma vez. A Fábrica assiste aos seus vídeos, traz as ideias do dia com fonte, produz o post passando por cada etapa e aprende com o que você ensina e com o que dá resultado. Tudo no seu Claude.</p>
+      <div class="ctas"><a class="pill pri" href="#instalar">Instalar agora</a><a class="pill sec" href="#o-que-e">Como funciona</a></div>
+    </div>
+    <div class="stage" aria-label="Exemplo da Fábrica produzindo um post">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="l"><span class="p">›</span> Produzir: "75% das pequenas empresas usam computador"</div>
+      <div class="l d">  Fonte · lendo a pesquisa do Sebrae</div>
+      <div class="l d">  Formato e ângulo · carrossel, quebra de crença</div>
+      <div class="l">  Gancho · <span class="k">ig-hook-extractor</span></div>
+      <div class="l">  Texto · <span class="k">ig-carousel-planner</span></div>
+      <div class="l">  Legenda · <span class="k">ig-caption-writer</span></div>
+      <div class="l">  Hashtags · <span class="k">ig-hashtag-strategist</span></div>
+      <div class="l">  Revisão anti-IA · <span class="k">ig-humanizer</span></div>
+      <div class="l d">  Briefing pro designer · 7 slides</div>
+      <div class="l"><span class="k">✓</span> Pronto. Nada vai ao ar sem o seu ok.</div>
+    </div>
+  </div>
+  <div class="nums">
+    <div><b>1×</b><span>você explica quem é</span></div>
+    <div><b>8</b><span>etapas por post, todas visíveis</span></div>
+    <div><b>3</b><span>plugins abertos por baixo</span></div>
+    <div><b>0</b><span>posts publicados sem o seu ok</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Índice" id="toc"></nav>
+  <main>
+
+  <section id="o-que-e">
+    <p class="eyebrow">01 · O que é</p>
+    <h2>O que a Fábrica faz, e o que continua com você</h2>
+    <p class="sub">A Fábrica cuida da parte de pensar o post. Gravar, aprovar e publicar continuam com você e com a sua equipe.</p>
+    <div class="flow">
+      <div><b>Ideias do dia</b>Todo dia às 7h, assuntos do seu nicho com o link da fonte e por que servem pra você.</div>
+      <div><b>Você ensina</b>Notícia boa, ruim, ângulo ruim, tom errado. Cada clique vira regra pra próxima vez.</div>
+      <div><b>Produzir</b>O post passa por 8 etapas: fonte, ângulo, gancho, texto, legenda, hashtags, anti-IA e briefing.</div>
+      <div><b>Ajustar conversando</b>"Troca o gancho", "deixa mais curto". Ele refaz só o que mudou.</div>
+      <div><b>Entregar e medir</b>Pacote pro designer e pro social. Toda semana, o que funcionou vira padrão.</div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>A diferença</h3><p>Em outros guias, todo pedido precisa repetir nicho, público e objetivo. Aqui isso fica salvo na sua pasta uma vez só. Você pede em uma linha, e a Fábrica já sabe o resto.</p></div>
+      <div class="card"><h3>Ela fica mais inteligente</h3><p>Tudo que você ensina e tudo que dá resultado vai pra memória da sua pasta. As próximas ideias e os próximos posts já saem com isso.</p></div>
+      <div class="card"><h3>O que ela não faz</h3><p>Não grava vídeo, não cria arte (ainda) e não publica sozinha. Ela entrega o texto exato e o briefing pro designer.</p></div>
+    </div>
+  </section>
+
+  <section id="antes">
+    <p class="eyebrow">02 · Antes de começar</p>
+    <h2>O que você precisa ter</h2>
+    <p class="sub">Separe uns 30 minutos pra primeira vez. A maior parte é o questionário e a Fábrica assistindo aos seus vídeos.</p>
+    <div class="tbl"><table>
+      <tr><th>O quê</th><th>Por quê</th><th>Custo</th></tr>
+      <tr><td>Claude Pro</td><td>A Fábrica roda no seu plano, com a sua cota</td><td>US$ 20/mês</td></tr>
+      <tr><td>App do Claude no computador</td><td>Onde ficam as rotinas automáticas e a conversa</td><td>Grátis</td></tr>
+      <tr><td>Mac</td><td>O app da Fábrica e a leitura de vídeos foram testados no Mac</td><td>—</td></tr>
+      <tr><td>Conta na Apify</td><td>Lê o seu perfil e os das referências sozinha, toda semana. Sem ela, você manda print</td><td>Grátis até US$ 5/mês</td></tr>
+      <tr><td>Python 3 e ffmpeg</td><td>Pra rodar o app e assistir aos vídeos</td><td>Grátis</td></tr>
+      <tr><td>Instagram profissional</td><td>Só se quiser publicar carrossel direto daqui, pela Publora (opcional)</td><td>Publora é paga</td></tr>
+    </table></div>
+    <div class="warn">Usa Windows? As skills e a conversa funcionam, mas o app da Fábrica e a leitura de vídeos ainda estão em validação no Windows. Fale com a Star Conect antes de instalar.</div>
+  </section>
+
+  <section id="instalar">
+    <p class="eyebrow">03 · Instalar</p>
+    <h2>Instalar em 6 passos</h2>
+    <p class="sub">Copie cada comando, cole no Terminal e aperte Enter. O Terminal fica em Aplicativos, Utilitários, Terminal.</p>
+    <div class="tabs" role="tablist" aria-label="Sistema"><button role="tab" data-os="mac" aria-selected="true">Mac</button><button role="tab" data-os="win" aria-selected="false">Windows</button></div>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <section id="conferir">
+    <p class="eyebrow">04 · Conferir</p>
+    <h2>Como saber se instalou certo</h2>
+    <ol class="steps">
+      <li><h3>Os 3 plugins aparecem ativos</h3><div class="cmd"><code>claude plugin list</code><button data-copy>Copiar</button></div><div class="see">Deve aparecer fabrica, instagram-skills e watch, cada um marcado como ativo (enabled).</div></li>
+      <li><h3>O Claude reconhece a Fábrica</h3><p>No app do Claude, abra a aba Code numa pasta qualquer e digite <b>/fabrica</b>.</p><div class="see">Deve aparecer a lista: comecar, painel, radar, trazer, produzir, assistir, analista, fila.</div></li>
+      <li><h3>O login vale pros botões</h3><div class="cmd"><code>claude -p "responda só: ok"</code><button data-copy>Copiar</button></div><div class="see">Deve responder "ok". Se aparecer "OAuth session expired", rode <b>claude</b>, depois <b>/login</b>, e entre de novo.</div></li>
+    </ol>
+  </section>
+
+  <section id="primeira">
+    <p class="eyebrow">05 · Primeira vez</p>
+    <h2>O questionário: responda uma vez, nunca mais</h2>
+    <p class="sub">Crie uma pasta vazia (ex.: "Fabrica de Conteudo" na Mesa), abra o app do Claude na aba Code nessa pasta e digite <b>/fabrica:comecar</b>. Ele faz uma pergunta por vez. Quando já souber a resposta pelo seu perfil, só pede pra você confirmar.</p>
+    <div id="perguntas"></div>
+    <div class="card" style="margin-top:16px"><h3>Enquanto você responde, ele assiste</h3><p>Com a sua autorização, a Fábrica usa o login do Instagram que já está no seu Chrome pra baixar os seus Reels. Ela assiste aos que mais deram resultado, tira os frames, transcreve e anota gancho, formato, cortes e tese. Faz o mesmo com os 3 melhores vídeos de cada perfil de referência. Fica só a análise em texto: o vídeo é apagado. Na primeira vez demora mais, porque baixa o modelo de transcrição.</p></div>
+  </section>
+
+  <section id="apify">
+    <p class="eyebrow">06 · Ler seu perfil</p>
+    <h2>Print ou Apify</h2>
+    <p class="sub">A Fábrica precisa dos números dos seus posts pra saber o que funciona. Você escolhe no questionário.</p>
+    <div class="grid2">
+      <div class="card"><div class="tag">Sem cadastro</div><h3>Mandar print</h3><p>Print do topo do perfil e dos últimos posts, com curtidas e comentários. Funciona, mas toda semana a Fábrica vai te pedir de novo.</p></div>
+      <div class="card"><div class="tag">Automático · recomendado</div><h3>Conectar a Apify</h3><p>Lê o seu perfil e os das referências sozinha, sem pedir senha do Instagram. O plano grátis cobre o uso normal.</p>
+        <ol class="steps" style="margin-top:12px">
+          <li><h3>Criar a conta</h3><p><a href="https://console.apify.com/sign-up" target="_blank" rel="noopener">console.apify.com/sign-up</a>. Dá pra entrar com o Google.</p></li>
+          <li><h3>Copiar o token</h3><p>Em <a href="https://console.apify.com/settings/integrations" target="_blank" rel="noopener">Settings, Integrations</a>, copie o "Personal API token".</p></li>
+          <li><h3>Colar quando o questionário pedir</h3><p>Ele guarda o token só num arquivo da sua pasta e testa na hora.</p></li>
+        </ol></div>
+    </div>
+    <p style="color:var(--ink-2);font-size:15px;margin-top:14px">O que a Apify lê: seguidores, curtidas, comentários e visualizações de cada Reels, seus e das referências. O que ela não lê: alcance real, salvamentos e retenção. Isso vem numa próxima versão.</p>
+  </section>
+
+  <section id="dia">
+    <p class="eyebrow">07 · No dia a dia</p>
+    <h2>Abrir o app e trabalhar por ele</h2>
+    <p class="sub">No Claude, na pasta da Fábrica, digite <b>/fabrica:painel</b>. O app abre no navegador do computador (endereço 127.0.0.1). Ele funciona só nessa máquina, enquanto o Claude estiver aberto.</p>
+    <div class="app" aria-label="Exemplo do app da Fábrica">
+      <div class="top"><b>Fábrica de Conteúdo · @seu.perfil</b><span><span class="chip">Ideias 4</span><span class="chip">Posts 1</span><span class="chip">Meus vídeos 8</span><span class="chip">Memória</span></span></div>
+      <div class="body">
+        <div>
+          <div class="mini on"><span class="chip">Carrossel</span><span class="chip">Pronto</span><br><b>75% das pequenas empresas usam computador. Isso não é ter gestão</b><br><span style="color:var(--muted)">Sebrae, via SBT News</span></div>
+          <div class="mini"><span class="chip">Reels</span><span class="chip">Ideia</span><br><b>O WhatsApp da sua empresa começou a cobrar por conversa</b><br><span style="color:var(--muted)">Forbes Brasil</span></div>
+        </div>
+        <div class="mini" style="margin:0">
+          <b>Ensinar a Fábrica</b><br><span class="chip">Notícia boa</span><span class="chip">Notícia ruim</span><span class="chip">Notícia boa, ângulo ruim</span><span class="chip">Tom errado</span>
+          <div style="margin-top:10px"><b>Trilha de produção · 8 etapas</b></div>
+          <ul class="trail"><li>Fonte</li><li>Formato e ângulo</li><li>Gancho <span class="chip s">ig-hook-extractor</span></li><li>Texto <span class="chip s">ig-carousel-planner</span></li><li>Revisão anti-IA <span class="chip s">ig-humanizer</span>: 3 trocas</li><li>Briefing pro designer</li></ul>
+        </div>
+      </div>
+    </div>
+    <ol class="steps" style="margin-top:14px">
+      <li><h3>Ensine nas ideias</h3><p>Um clique por ideia: boa, ruim, ângulo ruim ou tom errado. Diga o porquê quando puder, é o que mais ensina.</p></li>
+      <li><h3>Traga o seu assunto</h3><p>No campo do topo: um tema, um link de notícia ou o link de um post de outra pessoa. Se for vídeo, ele assiste antes.</p></li>
+      <li><h3>Produza</h3><p>Escolha Reels, carrossel, post fixo, ou deixe a Fábrica decidir. Cada etapa aparece na trilha; abra pra ver o que saiu.</p></li>
+      <li><h3>Ajuste conversando</h3><p>Embaixo do post, escreva o que mudar. Se for preferência fixa ("nunca lista numerada"), ela guarda como regra.</p></li>
+      <li><h3>Entregue e marque</h3><p>"Montar pacote de entrega" gera o texto pronto pro designer e pro social. Depois: gravado, com designer, publicado.</p></li>
+    </ol>
+  </section>
+
+  <section id="rotinas">
+    <p class="eyebrow">08 · Sozinha</p>
+    <h2>O que roda sem você pedir</h2>
+    <div class="grid2">
+      <div class="card"><div class="tag">Todo dia · 7h</div><h3>Ideias do dia</h3><p>Busca nas suas fontes, filtra pelo que você ensinou e deixa as ideias prontas no app.</p></div>
+      <div class="card"><div class="tag">Toda segunda · 8h</div><h3>Leitura semanal</h3><p>Puxa os números, assiste aos vídeos novos, cruza o que foi publicado com o resultado e grava o que funciona.</p></div>
+    </div>
+    <p style="color:var(--ink-2);font-size:15px;margin-top:12px">As rotinas aparecem em "Tarefas agendadas" no app do Claude. Elas rodam com o app aberto. Se o computador estiver desligado na hora, rodam quando ligar.</p>
+  </section>
+
+  <section id="pedidos">
+    <p class="eyebrow">09 · Pedido em uma linha</p>
+    <h2>Monte o pedido e cole no Claude</h2>
+    <p class="sub">Como o seu contexto já está salvo, o pedido é curto. Só preencha "fugir do padrão" quando quiser algo diferente do normal.</p>
+    <div class="builder">
+      <div class="in">
+        <div><label>O que você quer</label><div class="chips" id="tarefas"></div></div>
+        <div><label for="tema">Tema ou link</label><input id="tema" placeholder="o link da notícia, ou: margem errada no fim do mês"></div>
+        <div><label for="fuga">Fugir do padrão (opcional)</label><input id="fuga" placeholder="ex.: dessa vez pra quem está começando"></div>
+      </div>
+      <div class="out"><div class="meta"><span id="cc">0 caracteres</span><button id="copyPedido">Copiar pedido</button></div><pre id="saida"></pre></div>
+    </div>
+    <div class="compare">
+      <div>Pedido em outros guias, toda vez:<code>Escreva a legenda de um Reel sobre {tema}, para {público}, no nicho {nicho}. Objetivo: salvamentos. Mostre 2 ou 3 fórmulas de gancho…</code></div>
+      <div>Pedido aqui:<code>/fabrica:trazer {link}</code></div>
+    </div>
+  </section>
+
+  <section id="memoria">
+    <p class="eyebrow">10 · Memória</p>
+    <h2>Onde a Fábrica guarda o que aprende</h2>
+    <p class="sub">Tudo fica na sua pasta, em arquivos de texto que você pode abrir. Atualizar a Fábrica nunca apaga isso.</p>
+    <div class="grid3">
+      <div class="card"><div class="tag">memoria/aprendizado.md</div><h3>O que você ensinou</h3><p>Cada clique de feedback e cada regra pedida num ajuste. Errou? Apague a linha.</p></div>
+      <div class="card"><div class="tag">memoria/o-que-funciona.md</div><h3>O que deu resultado</h3><p>Só entra com número: 3 posts ou mais, acima da sua média.</p></div>
+      <div class="card"><div class="tag">memoria/videos/</div><h3>Seus vídeos e as referências</h3><p>Uma análise por vídeo: gancho, formato, cortes, tese, resultado.</p></div>
+      <div class="card"><div class="tag">memoria/roteiros/</div><h3>O que você já tinha</h3><p>Roteiros e textos que você mandou no questionário.</p></div>
+      <div class="card"><div class="tag">perfil/</div><h3>Quem você é</h3><p>Voz, público, fontes, referências, equipe. Pra mudar: /fabrica:comecar voz (ou fontes, angulos…).</p></div>
+      <div class="card"><div class="tag">dados/</div><h3>Ideias e posts</h3><p>Cada ideia com a trilha de produção completa.</p></div>
+    </div>
+  </section>
+
+  <section id="cuidados">
+    <p class="eyebrow">11 · Cuidados</p>
+    <h2>Seis coisas pra não esquecer</h2>
+    <ol class="steps" id="cuid"></ol>
+  </section>
+
+  <section id="checklist">
+    <p class="eyebrow">12 · Checklist</p>
+    <h2>Fez? Marque aqui</h2>
+    <div class="meter"><b id="cnt">0/9</b><div class="track"><i id="bar"></i></div></div>
+    <div class="check" id="check"></div>
+  </section>
+
+  <section id="travou">
+    <p class="eyebrow">13 · Se travar</p>
+    <h2>Os problemas mais comuns</h2>
+    <div id="faq"></div>
+  </section>
+  </main>
+</div>
+
+<footer><div class="in">
+  <p><b>Fábrica de Conteúdo · Star Conect.</b> Feita em cima de dois projetos abertos (licença MIT): <a href="https://github.com/sergebulaev/instagram-skills" target="_blank" rel="noopener">instagram-skills</a>, de Sergey Bulaev, e <a href="https://github.com/bradautomates/claude-video" target="_blank" rel="noopener">claude-video (watch)</a>. Sem vínculo com Anthropic, Meta ou os autores desses projetos.</p>
+  <p>Testado em 13/10/2026 num Mac, com Claude Pro: instalação, questionário, ideias, produção de carrossel, ajuste, leitura de vídeos e leitura semanal. Ainda não testado: Windows e publicação pela Publora.</p>
+</div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const REPO="starconect/fabrica-conteudo-ig";
+const STEPS={
+ mac:[
+  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a conta do plano Pro."},
+  {t:"Instale o Claude Code no Terminal",c:["curl -fsSL https://claude.ai/install.sh | bash"],see:"Depois, feche e abra o Terminal de novo e rode claude --version. Deve aparecer um número de versão."},
+  {t:"Entre na sua conta pelo Terminal",c:["claude"],p:"Dentro dele, digite /login, entre com a mesma conta e saia com /exit. É isso que faz os botões do app funcionarem."},
+  {t:"Instale o ffmpeg (pra assistir aos vídeos)",c:["/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"","brew install ffmpeg"],p:"O primeiro comando instala o Homebrew (pula se já tiver). Se o Mac pedir pra instalar as ferramentas de linha de comando, aceite: elas trazem o Python 3."},
+  {t:"Instale os 3 plugins",c:["claude plugin marketplace add sergebulaev/instagram-skills","claude plugin install instagram-skills@instagram-skills","claude plugin marketplace add bradautomates/claude-video","claude plugin install watch@claude-video","claude plugin marketplace add "+REPO,"claude plugin install fabrica@fabrica-star-conect"],see:"Cada install termina com \"Successfully installed plugin\"."},
+  {t:"Comece",p:"Crie uma pasta vazia, abra o app do Claude na aba Code nessa pasta e digite /fabrica:comecar. Se o Claude já estava aberto, abra uma conversa nova."}
+ ],
+ win:[
+  {t:"Instale o app do Claude e entre na sua conta",p:"Baixe em claude.ai/download, instale e faça login com a conta do plano Pro."},
+  {t:"Instale o Claude Code no PowerShell",c:["irm https://claude.ai/install.ps1 | iex"],see:"Feche e abra o PowerShell de novo e rode claude --version. Deve aparecer um número de versão."},
+  {t:"Entre na sua conta",c:["claude"],p:"Digite /login, entre com a mesma conta e saia com /exit."},
+  {t:"Instale Python e ffmpeg",c:["winget install Python.Python.3.12","winget install Gyan.FFmpeg"],p:"Feche e abra o PowerShell depois."},
+  {t:"Instale os 3 plugins",c:["claude plugin marketplace add sergebulaev/instagram-skills","claude plugin install instagram-skills@instagram-skills","claude plugin marketplace add bradautomates/claude-video","claude plugin install watch@claude-video","claude plugin marketplace add "+REPO,"claude plugin install fabrica@fabrica-star-conect"],see:"Cada install termina com \"Successfully installed plugin\"."},
+  {t:"Comece",p:"Crie uma pasta vazia, abra o app do Claude na aba Code nessa pasta e digite /fabrica:comecar.",warn:"No Windows, o app da Fábrica e a leitura de vídeos ainda estão em validação."}
+ ]
+};
+const PERG=[
+ ["Seu @ do Instagram","É por ele que a Fábrica lê o seu perfil e já te mostra o que entendeu.","@seu.perfil","\"meu perfil de trabalho\""],
+ ["Como ler o seu perfil","Print ou Apify. Veja a seção 06.","Apify, com o token colado","\"tanto faz\""],
+ ["O que você já fez","Roteiros, legendas, posts planejados. Pode colar, dizer a pasta do computador ou mandar o link do Drive. Vira voz, ideia e o que não repetir.","\"os roteiros estão na pasta Conteúdo/Roteiros\"","\"não lembro\" (se não tiver nada, diga que não tem)"],
+ ["Sua voz","Sai das suas legendas, não de adjetivo. Ele monta e te mostra uma legenda nova pra você conferir.","Colar 3 a 6 legendas reais","\"sou descontraído e profissional\""],
+ ["Público e objetivo","Quem é o seguidor que importa e o que cada formato deve buscar.","\"dono de empresa pequena B2B que vive apagando incêndio\"","\"empreendedores em geral\""],
+ ["Fontes de assunto","Ele sugere de 5 a 8 fontes oficiais do seu nicho. Você risca e acrescenta.","Riscar o que não lê e somar o que acompanha","Aceitar tudo sem olhar"],
+ ["Referências","De 2 a 5 perfis que você admira, e o que admira em cada um. Ele assiste aos melhores vídeos deles.","\"@perfil: o jeito de abrir com pergunta sobre a notícia\"","Só os nomes"],
+ ["Volume","Quantos posts por semana você consegue manter de verdade. Formato, dia e gancho a Fábrica decide e testa.","\"3 por semana, e às vezes não consigo gravar\"","\"todo dia\" (se não for verdade)"],
+ ["Equipe","Quem faz a arte, quem posta, e como cada um recebe hoje.","\"Diogo faz a arte, recebe no WhatsApp\"","\"eu vejo depois\""]
+];
+const CUID=[
+ ["Ela escreve, você aprova","Nada vai ao ar sozinho. Publicar só existe com Publora ligada, e mesmo assim depois do seu \"pode publicar\"."],
+ ["Instale só dos repositórios oficiais","Os comandos da seção 03 apontam pros repositórios certos. Plugin roda com as suas permissões no computador."],
+ ["Token é senha","O token da Apify fica só no arquivo .env da sua pasta. Não mande em print, conversa ou grupo. Vazou? Gere outro na Apify."],
+ ["O Chrome só com a sua autorização","A Fábrica usa o login do Instagram do Chrome só pra baixar os seus vídeos, se você autorizar. O vídeo é apagado depois de assistido."],
+ ["Número de mercado é ponto de partida","Gancho nos 125 caracteres, 3 a 5 hashtags, horário. A Fábrica troca isso pelo que os seus números mostrarem."],
+ ["Sem cara de IA não é burlar detector","A revisão tira o que um leitor percebe como texto de IA. Não existe garantia contra detector."]
+];
+const CHECK=[
+ "Instalei os 3 plugins e conferi com claude plugin list",
+ "Loguei no Terminal (claude -p responde ok)",
+ "Respondi o /fabrica:comecar",
+ "Mandei o que eu já tinha (roteiros, textos)",
+ "Ensinei a Fábrica em pelo menos 3 ideias",
+ "Produzi o primeiro post e abri a trilha",
+ "Fiz um ajuste conversando",
+ ["O token da Apify está só no .env, fora de print e conversa","seg"],
+ ["Instalei só pelos comandos oficiais deste guia","seg"]
+];
+const FAQ=[
+ ["Aparece \"claude: command not found\"","O Claude Code não está instalado no Terminal, ou o Terminal foi aberto antes da instalação. Rode o passo 2 da seção 03 e abra o Terminal de novo."],
+ ["O comando plugin não existe","Claude Code desatualizado. Rode claude update e tente de novo."],
+ ["\"Plugin not found\"","Faltou o marketplace add antes do install, ou o nome foi digitado errado. Use os botões Copiar da seção 03."],
+ ["Instalei mas o /fabrica não aparece","Abra uma conversa nova no app do Claude. Plugin novo só entra em sessão nova."],
+ ["O botão do app dá \"deslogado\" ou \"OAuth session expired\"","O Claude do Terminal perdeu o login. Rode claude, depois /login, e entre com a mesma conta."],
+ ["O app não abre","No Claude, na pasta da Fábrica, rode /fabrica:painel de novo. O endereço é 127.0.0.1 e só abre no computador onde a Fábrica está."],
+ ["\"APIFY_TOKEN não encontrado\" ou \"crédito acabou\"","Rode /fabrica:comecar e escolha a parte da Apify pra colar o token de novo. Sem crédito, a Fábrica pede print até o mês virar."],
+ ["O vídeo não baixa","Perfil privado ou o Instagram pedindo login. Autorize o uso do Chrome no questionário (você precisa estar logado no Instagram no Chrome)."],
+ ["A primeira leitura de vídeo demora muito","Na primeira vez ele baixa o modelo de transcrição. As próximas são bem mais rápidas."],
+ ["A rotina das 7h não rodou","O app do Claude precisa estar aberto. Se estava fechado, ela roda quando você abrir."],
+ ["O post saiu com cara de IA ou fora do meu tom","Ajuste conversando e diga o que soou errado. Se for sempre assim, aceite guardar como regra. Use também o botão Tom errado."],
+ ["As ideias não têm nada a ver comigo","Use Notícia ruim com o motivo. Se forem as fontes, rode /fabrica:comecar fontes."],
+ ["Quero mudar minha voz, público ou referências","/fabrica:comecar voz, /fabrica:comecar referencias e assim por diante. Ele refaz só aquele pedaço e mostra o antes e depois."],
+ ["Como atualizo a Fábrica?","claude plugin marketplace update fabrica-star-conect e depois claude plugin update fabrica@fabrica-star-conect. A sua pasta e a memória não mudam."]
+];
+const TAREFAS=[
+ ["Trazer assunto","/fabrica:trazer {tema}"],
+ ["Ideias agora","/fabrica:radar {tema}"],
+ ["Produzir carrossel","Produz como carrossel a ideia sobre {tema}"],
+ ["Produzir Reels","Produz como Reels a ideia sobre {tema}"],
+ ["Por que bombou","Por que esse post foi bem? {tema}"],
+ ["Assistir vídeos","/fabrica:assistir {tema}"],
+ ["Leitura da semana","/fabrica:analista"],
+ ["Abrir o app","/fabrica:painel"]
+];
+
+let OS=/Win/i.test(navigator.userAgent)?"win":"mac";
+function cmdHtml(c){return `<div class="cmd"><code>${esc(c)}</code><button data-copy>Copiar</button></div>`}
+function renderSteps(){
+  document.querySelectorAll("[data-os]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.os===OS)));
+  $("#steps").innerHTML=STEPS[OS].map(s=>`<li><h3>${esc(s.t)}</h3>${s.p?`<p>${esc(s.p)}</p>`:""}${(s.c||[]).map(cmdHtml).join("")}${s.see?`<div class="see">${esc(s.see)}</div>`:""}${s.warn?`<div class="warn">${esc(s.warn)}</div>`:""}</li>`).join("");
+}
+$("#perguntas").innerHTML=PERG.map((q,i)=>`<div class="q"><h3><span>${String(i+1).padStart(2,"0")}</span>${esc(q[0])}</h3><p class="why">${esc(q[1])}</p><div class="ab"><div class="good"><b>Resposta boa</b>${esc(q[2])}</div><div class="bad"><b>Resposta que atrapalha</b>${esc(q[3])}</div></div></div>`).join("");
+$("#cuid").innerHTML=CUID.map(c=>`<li><h3>${esc(c[0])}</h3><p>${esc(c[1])}</p></li>`).join("");
+$("#faq").innerHTML=FAQ.map(f=>`<details><summary>${esc(f[0])}</summary><div>${esc(f[1])}</div></details>`).join("");
+
+let marcados=[];try{marcados=JSON.parse(localStorage.getItem("fabrica-check")||"[]")}catch{}
+function renderCheck(){
+  $("#check").innerHTML=CHECK.map((c,i)=>{const t=Array.isArray(c)?c[0]:c,s=Array.isArray(c);return `<label><input type="checkbox" id="ck${i}" data-ck="${i}" ${marcados.includes(i)?"checked":""}><span>${esc(t)}${s?`<span class="sec">segurança</span>`:""}</span></label>`}).join("");
+  const n=marcados.length; $("#cnt").textContent=`${n}/${CHECK.length}`; $("#bar").style.width=(n/CHECK.length*100)+"%";
+}
+let tarefa=0;
+function renderBuilder(){
+  $("#tarefas").innerHTML=TAREFAS.map((t,i)=>`<button aria-pressed="${i===tarefa}" data-t="${i}">${esc(t[0])}</button>`).join("");
+  const tema=$("#tema").value.trim(), fuga=$("#fuga").value.trim();
+  let s=TAREFAS[tarefa][1].replace("{tema}",tema||(TAREFAS[tarefa][1].includes("{tema}")?"{tema ou link}":""));
+  s=s.replace(/\s+$/,"");
+  if(fuga) s+=`\n\nDessa vez, foge do padrão: ${fuga}.`;
+  $("#saida").textContent=s; $("#cc").textContent=s.length+" caracteres";
+}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1600)}
+function copiar(txt,sel){
+  const ok=()=>toast("Copiado");
+  try{navigator.clipboard.writeText(txt).then(ok,()=>falha())}catch{falha()}
+  function falha(){if(sel){const r=document.createRange();r.selectNodeContents(sel);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast("Selecionado: aperte Cmd+C")}
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.os){OS=b.dataset.os;renderSteps();return}
+  if(b.hasAttribute("data-copy")){const c=b.parentElement.querySelector("code");copiar(c.textContent,c);return}
+  if(b.dataset.t!=null){tarefa=+b.dataset.t;renderBuilder();return}
+  if(b.id==="copyPedido"){copiar($("#saida").textContent,$("#saida"))}
+});
+document.addEventListener("change",e=>{
+  const i=e.target.dataset.ck; if(i==null) return;
+  const n=+i; marcados=e.target.checked?[...new Set([...marcados,n])]:marcados.filter(x=>x!==n);
+  try{localStorage.setItem("fabrica-check",JSON.stringify(marcados))}catch{}
+  renderCheck(); if(marcados.length===CHECK.length) toast("Tudo pronto. Boa produção.");
+});
+["tema","fuga"].forEach(id=>$("#"+id).addEventListener("input",renderBuilder));
+
+const SECS=[...document.querySelectorAll("main section")];
+$("#toc").innerHTML=SECS.map(s=>{const e=s.querySelector(".eyebrow").textContent.split(" · ");return `<a href="#${s.id}" data-s="${s.id}"><b>${e[0]}</b>${esc(e[1])}</a>`}).join("");
+const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("on",a.dataset.s===en.target.id))}})},{rootMargin:"-30% 0px -60% 0px"});
+SECS.forEach(s=>io.observe(s));
+renderSteps(); renderCheck(); renderBuilder();
+</script>

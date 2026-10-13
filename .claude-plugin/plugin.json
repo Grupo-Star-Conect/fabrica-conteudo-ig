@@ -1,7 +1,7 @@
 {
   "name": "fabrica",
   "description": "Fábrica de Conteúdo de Instagram da Star Conect: questionário que adapta os agentes ao seu perfil, pautas diárias com fonte oficial, posts montados na sua voz e um painel pra trabalhar e acompanhar resultado. Usa as skills do instagram-skills por baixo.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "Star Conect",
     "url": "https://grupostarconect.com"
