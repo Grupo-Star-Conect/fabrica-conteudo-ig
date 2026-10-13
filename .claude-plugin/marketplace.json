@@ -1,0 +1,19 @@
+{
+  "name": "fabrica-star-conect",
+  "owner": {
+    "name": "Star Conect",
+    "url": "https://grupostarconect.com"
+  },
+  "metadata": {
+    "description": "Fábrica de Conteúdo de Instagram da Star Conect."
+  },
+  "plugins": [
+    {
+      "name": "fabrica",
+      "source": "./",
+      "description": "Questionário que adapta os agentes ao seu perfil, pautas diárias com fonte oficial, posts na sua voz e painel de trabalho.",
+      "version": "0.1.1",
+      "category": "productivity"
+    }
+  ]
+}
