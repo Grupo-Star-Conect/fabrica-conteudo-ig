@@ -214,7 +214,7 @@ footer p{margin:0}
 <section id="primeira">
   <p class="eyebrow">03 · Primeira vez</p>
   <h2>O questionário: responda uma vez, nunca mais</h2>
-  <p class="sub">No passo 16 você digitou <code>/fabrica:comecar</code>. Daí pra frente é conversa. Isto é o que acontece, na ordem:</p>
+  <p class="sub">No passo 17 a Fábrica começou com <code>/fabrica:comecar</code>. Daí pra frente é conversa. Isto é o que acontece, na ordem:</p>
   <ol class="timeline">
     <li><b>Ela lê sozinha</b>Seu perfil, o link da bio, o que existe sobre você na internet e os comentários dos seus posts.</li>
     <li><b>Mostra o que entendeu</b>"Isso eu já descobri: …" Você confirma ou corrige.</li>
@@ -230,7 +230,7 @@ footer p{margin:0}
 <section id="dia">
   <p class="eyebrow">04 · No dia a dia</p>
   <h2>Tudo pelo app, sem trocar de tela</h2>
-  <p class="sub">Pra abrir: no app do Claude, na pasta da Fábrica, digite <code>/fabrica:painel</code>. O app abre no navegador (endereço 127.0.0.1) e funciona só no seu computador, enquanto o Claude estiver aberto.</p>
+  <p class="sub">Pra abrir: entre na Fábrica (passo 18) e digite <code>/fabrica:painel</code>. O app abre no navegador (endereço 127.0.0.1) e funciona só no seu computador, enquanto o Claude estiver aberto.</p>
   <div class="app" aria-label="Exemplo do app da Fábrica">
     <aside>
       <span class="g">CONVERSA</span><span class="it on">Nova conversa</span>
@@ -349,7 +349,10 @@ const FASES=[
   {t:"Confira os 3",c:"claude plugin list",v:"fabrica@fabrica-star-conect … ✔ enabled\ninstagram-skills@instagram-skills … ✔ enabled\nwatch@claude-video … ✔ enabled"}
  ]],
  ["Começar",[
-  {t:"Crie a pasta da Fábrica e comece",p:"O comando cria a pasta \"Fabrica de Conteudo\" na Mesa. Depois: abra o app do Claude, vá na aba Code, escolha essa pasta e digite /fabrica:comecar. Se o app já estava aberto, abra uma conversa nova: plugin novo só entra em conversa nova.",c:'mkdir -p ~/Desktop/"Fabrica de Conteudo"',v:"No app do Claude, ao digitar /fabrica, aparece a lista: comecar, painel, radar, trazer, produzir, assistir, analista, fila."}
+  {t:"Crie a pasta da Fábrica na Mesa",p:"Só cria a pasta. É nela que a Fábrica guarda o seu perfil, a memória, as ideias e os posts. Faça uma vez só.",c:'mkdir -p ~/Desktop/"Fabrica de Conteudo"',v:"Não aparece nada no Terminal. Na Mesa do Mac surge a pasta Fabrica de Conteudo."},
+  {t:"Abra a Fábrica: o Claude dentro da pasta",p:"Entra na pasta e abre o Claude trabalhando nela, já começando o questionário. Daqui pra frente é conversa.",c:'cd ~/Desktop/"Fabrica de Conteudo" && claude "/fabrica:comecar"',v:"O Claude abre no Terminal e a Fábrica pede o @ do seu Instagram.",w:"Abriu e não começou sozinho? Digite /fabrica:comecar e aperte Enter."},
+  {t:"Nos outros dias: abrir a Fábrica",p:"A pasta já existe. Este comando só entra nela e abre o Claude. Depois, digite /fabrica:painel pra abrir o app.",c:'cd ~/Desktop/"Fabrica de Conteudo" && claude',v:"O Claude abre no Terminal, já sabendo quem você é."},
+  {t:"Ligue as rotinas automáticas no app do Claude",p:"As ideias das 7h e a leitura de segunda rodam pelo app do Claude, não pelo Terminal. Abra o app do Claude, vá na aba Code, escolha a pasta Fabrica de Conteudo (Mesa → Fabrica de Conteudo; se não aparecer, aperte Cmd + Shift + G e cole ~/Desktop/Fabrica de Conteudo) e escreva: agenda as rotinas da Fábrica.",v:"As duas rotinas aparecem em Tarefas agendadas no app do Claude."}
  ]]
 ];
 const CARDS=[
